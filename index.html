@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 장애학생 스포츠체험 가족캠프 참가신청서</title>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "맑은 고딕", sans-serif;
+    background: #f5f6f8;
+    color: #2a2d33;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 20px 16px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1d21;
+    margin-bottom: 6px;
+  }
+  .header .subtitle {
+    font-size: 13px;
+    color: #6b7280;
+  }
+  .data-notice {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e3a8a;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .progress-item {
+    flex: 1;
+    padding: 10px 6px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    text-align: center;
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .progress-item.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+  }
+  .progress-item.done {
+    background: #dbeafe;
+    border-color: #93c5fd;
+    color: #1e40af;
+  }
+  .step {
+    display: none;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .step.active { display: block; }
+  .step-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #1a1d21;
+  }
+  .step-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 20px;
+  }
+  .field {
+    margin-bottom: 18px;
+  }
+  .field-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .field-row > * { flex: 1; min-width: 120px; }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+  .required::after {
+    content: " *";
+    color: #dc2626;
+  }
+  input[type="text"], input[type="tel"], select, textarea {
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fff;
+    color: #1a1d21;
+  }
+  textarea {
+    height: auto;
+    min-height: 90px;
+    padding: 8px 10px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  input.error, select.error, textarea.error {
+    border-color: #dc2626;
+    background: #fef2f2;
+  }
+  .hint {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .warn-hint {
+    font-size: 12px;
+    color: #b45309;
+    margin-top: 4px;
+    background: #fffbeb;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #fde68a;
+  }
+  .info-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: #4b5563;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .emphasis-box {
+    background: #fef3c7;
+    border: 1px solid #fcd34d;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 13px;
+    color: #78350f;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .checkbox-group, .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .checkbox-group.vertical, .radio-group.vertical {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .check-item, .radio-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    user-select: none;
+  }
+  .check-item:hover, .radio-item:hover {
+    background: #f3f4f6;
+  }
+  .check-item input, .radio-item input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+  }
+  .check-item.checked, .radio-item.checked {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: #1e40af;
+    font-weight: 500;
+  }
+  .sub-input {
+    margin-top: 8px;
+    display: none;
+  }
+  .sub-input.show { display: block; }
+  .card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .card-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a1d21;
+  }
+  .card-badge {
+    display: inline-block;
+    background: #2563eb;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 6px;
+  }
+  .btn-remove {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .btn-remove:hover {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #dc2626;
+  }
+  .btn-add {
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    border: 1.5px dashed #d1d5db;
+    border-radius: 8px;
+    color: #6b7280;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .btn-add:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    background: #eff6ff;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-family: inherit;
+  }
+  .btn-prev {
+    background: #fff;
+    border-color: #d1d5db;
+    color: #4b5563;
+  }
+  .btn-next {
+    background: #2563eb;
+    color: #fff;
+    margin-left: auto;
+  }
+  .btn-next:hover { background: #1d4ed8; }
+  .btn-prev:hover { background: #f3f4f6; }
+  .btn-pdf {
+    width: 100%;
+    padding: 16px;
+    background: #16a34a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 16px;
+  }
+  .btn-pdf:hover { background: #15803d; }
+  .error-msg {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+  .sensory-axis {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .sensory-axis .axis-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+  .summary-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .summary-section:last-child { border-bottom: none; }
+  .summary-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1d21;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    background: #f3f4f6;
+    border-radius: 6px;
+  }
+  .summary-row {
+    display: flex;
+    padding: 6px 10px;
+    font-size: 13px;
+    border-bottom: 1px dashed #f3f4f6;
+  }
+  .summary-row .label {
+    flex: 0 0 140px;
+    font-weight: 600;
+    color: #4b5563;
+  }
+  .summary-row .value {
+    flex: 1;
+    color: #1a1d21;
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
+  .summary-row .value.empty {
+    color: #dc2626;
+    font-style: italic;
+  }
+  .summary-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .summary-card .summary-row {
+    padding: 4px 0;
+  }
+  .agree-name-list {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 8px;
+  }
+  .agree-name-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 13px;
+    border-bottom: 1px dashed #e5e7eb;
+  }
+  .agree-name-item:last-child { border-bottom: none; }
+  .agree-name-item .name {
+    flex: 1;
+    font-weight: 500;
+  }
+  .agree-name-item .role {
+    color: #6b7280;
+    font-size: 12px;
+  }
+  .mismatch-warning {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .footer-notice {
+    margin-top: 24px;
+    padding: 14px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.7;
+    text-align: center;
+  }
+  .pdf-only { display: none; }
+  .pdf-header { display: none; }
+
+  /* 인쇄 스타일 */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 18mm 16mm;
+    }
+    body {
+      background: #fff;
+      font-size: 11pt;
+      color: #000;
+    }
+    .container { max-width: none; padding: 0; }
+    .progress, .nav, .btn-add, .btn-remove, .data-notice,
+    .footer-notice, .info-box, .emphasis-box, .warn-hint,
+    .hint, .error-msg, .mismatch-warning, .step-desc,
+    .header { display: none !important; }
+
+    .pdf-header {
+      display: block !important;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #000;
+      position: relative;
+    }
+    .pdf-header h1 {
+      font-size: 18pt;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .pdf-header .pdf-subtitle {
+      font-size: 10pt;
+      text-align: center;
+      color: #555;
+    }
+    .pdf-header .pdf-date {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 10pt;
+      color: #555;
+    }
+    .pdf-only { display: block !important; }
+
+    .step {
+      display: block !important;
+      border: none;
+      padding: 0;
+      margin-bottom: 12pt;
+      page-break-inside: avoid;
+      background: #fff;
+    }
+    .step-title {
+      font-size: 13pt;
+      font-weight: 700;
+      padding: 6pt 8pt;
+      background: #f0f0f0;
+      border-left: 4px solid #000;
+      margin-bottom: 8pt;
+      page-break-after: avoid;
+    }
+    .summary-section {
+      page-break-inside: avoid;
+      border-bottom: 1px solid #999;
+      margin-bottom: 10pt;
+      padding-bottom: 8pt;
+    }
+    .summary-title {
+      background: #e8e8e8;
+      font-size: 11pt;
+      padding: 4pt 8pt;
+      page-break-after: avoid;
+    }
+    .summary-row {
+      padding: 3pt 8pt;
+      font-size: 10pt;
+      border-bottom: 1px dotted #ccc;
+    }
+    .summary-row .label {
+      flex: 0 0 120pt;
+      font-weight: 700;
+    }
+    .summary-row .value.empty {
+      color: #999;
+      font-style: italic;
+    }
+    .summary-card {
+      background: #fafafa;
+      border: 1px solid #ccc;
+      padding: 6pt 8pt;
+      margin-bottom: 6pt;
+      page-break-inside: avoid;
+    }
+    .agree-name-list {
+      background: #fafafa;
+      border: 1px solid #ccc;
+      padding: 6pt;
+    }
+    .btn-pdf { display: none !important; }
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 16px 12px 60px; }
+    .step { padding: 18px 16px; }
+    .header h1 { font-size: 17px; }
+    .progress-item { font-size: 10px; padding: 8px 4px; }
+    .summary-row { flex-direction: column; }
+    .summary-row .label { flex: none; margin-bottom: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- PDF 출력용 헤더 -->
+  <div class="pdf-header">
+    <div class="pdf-date" id="pdfDate"></div>
+    <h1>2026 장애학생 스포츠체험 가족캠프 참가신청서</h1>
+    <div class="pdf-subtitle">2026.8.10(월) ~ 8.11(화) · 경기도청소년수련원 (안산 대부도)</div>
+  </div>
+
+  <!-- 화면용 헤더 -->
+  <div class="header">
+    <h1>2026 장애학생 스포츠체험 가족캠프 참가신청서</h1>
+    <div class="subtitle">2026.8.10(월) ~ 8.11(화) · 경기도청소년수련원 (안산 대부도)</div>
+  </div>
+
+  <div class="data-notice">
+    📌 입력하신 내용은 본인 기기에만 임시 저장되며, 서버로 전송되지 않습니다.<br>
+    PDF로 저장하신 후 이메일(운영진 이메일 주소 추후 안내)로 첨부해 보내주세요. 복지카드 사본 등 증빙자료도 함께 첨부해주세요.
+  </div>
+
+  <!-- 진행 표시 -->
+  <div class="progress">
+    <div class="progress-item active" data-step="1">1. 보호자 정보</div>
+    <div class="progress-item" data-step="2">2. 참가자 정보</div>
+    <div class="progress-item" data-step="3">3. 특성·지원요구</div>
+    <div class="progress-item" data-step="4">4. 자원봉사자</div>
+    <div class="progress-item" data-step="5">5. 확인·출력</div>
+  </div>
+
+  <!-- ============ Step 1: 가족 대표(보호자) 정보 ============ -->
+  <div class="step active" data-step="1">
+    <div class="step-title">Step 1. 가족 대표(보호자) 정보</div>
+    <div class="step-desc">신청을 대표하는 보호자의 정보를 입력해주세요.</div>
+
+    <div class="error-msg" id="error-1"></div>
+
+    <div class="field">
+      <label for="guardianName" class="required">보호자 성명</label>
+      <input type="text" id="guardianName" placeholder="예: 홍길동">
+    </div>
+
+    <div class="field">
+      <label for="guardianPhone" class="required">연락처(휴대전화)</label>
+      <input type="tel" id="guardianPhone" placeholder="예: 010-1234-5678" maxlength="13">
+    </div>
+
+    <div class="field">
+      <label class="required">거주지</label>
+      <div class="field-row">
+        <select id="city">
+          <option value="">시·군 선택</option>
+          <option>수원시</option><option>고양시</option><option>용인시</option>
+          <option>성남시</option><option>부천시</option><option>화성시</option>
+          <option>안산시</option><option>남양주시</option><option>안양시</option>
+          <option>평택시</option><option>의정부시</option><option>시흥시</option>
+          <option>파주시</option><option>김포시</option><option>광명시</option>
+          <option>광주시(우선 선정)</option><option>군포시</option><option>하남시</option>
+          <option>오산시</option><option>이천시</option><option>안성시</option>
+          <option>의왕시</option><option>양주시</option><option>구리시</option>
+          <option>포천시</option><option>여주시</option><option>동두천시</option>
+          <option>과천시</option><option>가평군</option><option>양평군</option>
+          <option>연천군</option>
+        </select>
+      </div>
+      <div class="field-row" style="margin-top: 8px;">
+        <input type="text" id="address" placeholder="도로명 주소" readonly style="flex: 2;">
+        <button type="button" class="btn btn-prev" style="flex: 0 0 auto; height: 36px; padding: 0 16px;" onclick="openPostcode()">주소 검색</button>
+      </div>
+      <div class="field-row" style="margin-top: 8px;">
+        <input type="text" id="addressDetail" placeholder="상세주소 (동·호수 등)">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="required">참가 가족 수</label>
+      <div class="field-row">
+        <div>
+          <select id="totalMembers">
+            <option value="">총 인원</option>
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+            <option value="4">4명</option>
+          </select>
+        </div>
+        <div>
+          <select id="disabledMembers">
+            <option value="">장애학생 수</option>
+            <option value="1">1명</option>
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+            <option value="4">4명</option>
+          </select>
+        </div>
+      </div>
+      <div class="warn-hint">⚠ 한 가족당 최대 4명까지 신청 가능합니다. (숙소가 4인실 기준)</div>
+    </div>
+
+    <div class="field">
+      <label for="reason" class="required">참가 희망 사유</label>
+      <textarea id="reason" rows="5" placeholder="예: 가족이 함께 바다를 보고 캠핑을 경험해보고 싶습니다..."></textarea>
+      <div class="hint">캠프 장소는 안산 대부도입니다. 가족이 함께 1박 2일을 보내며 어떤 것을 하고 싶은지 자유롭게 적어주세요. 적어주신 내용은 참가자를 선정할 때 참고됩니다.</div>
+    </div>
+
+    <div class="nav">
+      <button type="button" class="btn btn-next" onclick="goNext()">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ============ Step 2: 참가자 정보 ============ -->
+  <div class="step" data-step="2">
+    <div class="step-title">Step 2. 참가자 정보</div>
+    <div class="step-desc">캠프에 함께 참가할 가족 구성원을 입력해주세요. 첫 번째는 주참가자(장애학생)입니다.</div>
+
+    <div class="error-msg" id="error-2"></div>
+
+    <div id="participantList"></div>
+
+    <button type="button" class="btn-add" onclick="addParticipant()">+ 가족 구성원 추가</button>
+
+    <div class="nav">
+      <button type="button" class="btn btn-prev" onclick="goPrev()">← 이전</button>
+      <button type="button" class="btn btn-next" onclick="goNext()">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ============ Step 3: 장애학생 특성 및 지원요구 ============ -->
+  <div class="step" data-step="3">
+    <div class="step-title">Step 3. 장애학생 특성 및 지원요구</div>
+    <div class="step-desc">주참가자(장애학생)의 특성과 캠프에서 필요한 지원을 알려주세요. 정확한 정보가 안전하고 즐거운 캠프 운영에 큰 도움이 됩니다.</div>
+
+    <div class="error-msg" id="error-3"></div>
+
+    <!-- 이동성 -->
+    <div class="field">
+      <label class="required">이동성</label>
+      <div class="radio-group vertical" id="mobilityGroup">
+        <label class="radio-item"><input type="radio" name="mobility" value="제한 없이 걷는다"> 제한 없이 걷는다</label>
+        <label class="radio-item"><input type="radio" name="mobility" value="걷지만 제한적이다"> 걷지만 제한적이다 (오래 걷기 어려움, 계단 시 난간 필요, 신체적 보조 필요 등)</label>
+        <label class="radio-item"><input type="radio" name="mobility" value="손으로 잡는 보조보행기구 사용"> 손으로 잡는 보조보행기구(목발 등)를 사용하여 걷는다</label>
+        <label class="radio-item"><input type="radio" name="mobility" value="제한적 보행 또는 전동휠체어 이용"> 스스로 이동 가능하나 제한적이거나(워커 사용 등) 전동휠체어를 이용한다</label>
+        <label class="radio-item"><input type="radio" name="mobility" value="수동 휠체어, 타인 도움 필요"> 수동 휠체어를 이용하며, 다른 사람의 도움이 필요하다</label>
+      </div>
+      <div style="margin-top: 10px;">
+        <label class="check-item">
+          <input type="checkbox" id="hasWheelchair" onchange="toggleSub('wheelchairDetail', this.checked)"> 휠체어·유모차 지참
+        </label>
+      </div>
+      <div class="sub-input" id="wheelchairDetail">
+        <input type="text" id="wheelchairInfo" placeholder="예: 수동 휠체어, 가로 60cm × 세로 110cm">
+      </div>
+      <div class="warn-hint">⚠ 휠체어 정보가 실제와 다를 시 동선 계획 및 지원에 어려움이 있습니다. 정확하게 적어주세요.</div>
+    </div>
+
+    <!-- 감각 -->
+    <div class="field">
+      <label>감각</label>
+      <div class="sensory-axis">
+        <div class="axis-label">큰 소리 (마이크·음악·박수)</div>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="sound" value="특이사항 없음"> 특이사항 없음</label>
+          <label class="radio-item"><input type="radio" name="sound" value="약간 예민"> 약간 예민</label>
+          <label class="radio-item"><input type="radio" name="sound" value="중간(조절 필요)"> 중간(조절 필요)</label>
+          <label class="radio-item"><input type="radio" name="sound" value="매우 예민(헤드셋 필요)"> 매우 예민(헤드셋 필요)</label>
+        </div>
+      </div>
+      <div class="sensory-axis">
+        <div class="axis-label">빛·시각 자극</div>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="light" value="특이사항 없음"> 특이사항 없음</label>
+          <label class="radio-item"><input type="radio" name="light" value="약간 예민"> 약간 예민</label>
+          <label class="radio-item"><input type="radio" name="light" value="중간"> 중간</label>
+          <label class="radio-item"><input type="radio" name="light" value="매우 예민"> 매우 예민</label>
+        </div>
+      </div>
+      <div class="sensory-axis">
+        <div class="axis-label">사람 많은 환경·낯선 공간</div>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="crowd" value="특이사항 없음"> 특이사항 없음</label>
+          <label class="radio-item"><input type="radio" name="crowd" value="약간 불편"> 약간 불편</label>
+          <label class="radio-item"><input type="radio" name="crowd" value="중간(휴식공간 필요)"> 중간(휴식공간 필요)</label>
+          <label class="radio-item"><input type="radio" name="crowd" value="매우 불편"> 매우 불편</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 식사 -->
+    <div class="field">
+      <label>식사</label>
+      <div class="checkbox-group vertical">
+        <label class="check-item">
+          <input type="checkbox" class="meal-check" value="음식 알레르기" onchange="toggleSub('allergyDetail', this.checked)"> 음식 알레르기
+        </label>
+        <div class="sub-input" id="allergyDetail">
+          <input type="text" id="allergyInfo" placeholder="예: 견과류, 갑각류">
+        </div>
+        <label class="check-item"><input type="checkbox" class="meal-check" value="매운 음식 불가"> 매운 음식 불가</label>
+        <label class="check-item"><input type="checkbox" class="meal-check" value="식사 보조 필요"> 식사 보조 필요</label>
+        <label class="check-item"><input type="checkbox" class="meal-check" value="다진 음식 필요"> 다진 음식 필요</label>
+        <label class="check-item">
+          <input type="checkbox" class="meal-check" value="기타" onchange="toggleSub('mealEtcDetail', this.checked)"> 기타
+        </label>
+        <div class="sub-input" id="mealEtcDetail">
+          <input type="text" id="mealEtcInfo" placeholder="기타 식사 관련 사항">
+        </div>
+      </div>
+    </div>
+
+    <!-- 의사소통 -->
+    <div class="field">
+      <label>의사소통</label>
+      <div class="checkbox-group vertical">
+        <label class="check-item"><input type="checkbox" class="comm-check" value="구어 가능"> 구어 가능</label>
+        <label class="check-item"><input type="checkbox" class="comm-check" value="짧은 문장"> 짧은 문장</label>
+        <label class="check-item"><input type="checkbox" class="comm-check" value="단어 수준"> 단어 수준</label>
+        <label class="check-item"><input type="checkbox" class="comm-check" value="몸짓·표정·발성"> 몸짓·표정·발성</label>
+        <label class="check-item"><input type="checkbox" class="comm-check" value="AAC 사용"> AAC 사용</label>
+        <label class="check-item">
+          <input type="checkbox" class="comm-check" value="기타" onchange="toggleSub('commEtcDetail', this.checked)"> 기타
+        </label>
+        <div class="sub-input" id="commEtcDetail">
+          <input type="text" id="commEtcInfo" placeholder="기타 의사소통 방식">
+        </div>
+      </div>
+    </div>
+
+    <!-- 건강·기타 -->
+    <div class="field">
+      <label>건강·기타</label>
+      <div class="checkbox-group vertical">
+        <label class="check-item">
+          <input type="checkbox" class="health-check" value="경련 가능성" onchange="toggleSub('seizureDetail', this.checked)"> 경련 가능성
+        </label>
+        <div class="sub-input" id="seizureDetail">
+          <input type="text" id="seizureInfo" placeholder="예: 월 1~2회, 약 1분 지속">
+        </div>
+        <label class="check-item">
+          <input type="checkbox" class="health-check" value="기저질환" onchange="toggleSub('chronicDetail', this.checked)"> 기저질환
+        </label>
+        <div class="sub-input" id="chronicDetail">
+          <input type="text" id="chronicInfo" placeholder="예: 천식, 심장질환 등">
+        </div>
+        <label class="check-item">
+          <input type="checkbox" class="health-check" value="돌발행동" onchange="toggleSub('behaviorDetail', this.checked)"> 돌발행동
+        </label>
+        <div class="sub-input" id="behaviorDetail">
+          <input type="text" id="behaviorInfo" placeholder="예: 흥분 시 손을 흔들거나 큰 소리를 냄">
+        </div>
+        <label class="check-item">
+          <input type="checkbox" class="health-check" value="기타" onchange="toggleSub('healthEtcDetail', this.checked)"> 기타
+        </label>
+        <div class="sub-input" id="healthEtcDetail">
+          <input type="text" id="healthEtcInfo" placeholder="기타 건강 관련 사항">
+        </div>
+      </div>
+    </div>
+
+    <!-- 강점·좋아하는 것 -->
+    <div class="field">
+      <label for="strengths">강점·좋아하는 것</label>
+      <textarea id="strengths" rows="3" placeholder="예: 트로트 음악, 자동차 장난감, 뽀로로, 공놀이"></textarea>
+      <div class="hint">활동을 즐겁게 하기 위해 알면 좋은 정보. 예: 좋아하는 동요, 놀이, 캐릭터</div>
+    </div>
+
+    <!-- 싫어하는 것 -->
+    <div class="field">
+      <label for="dislikes">싫어하는 것</label>
+      <textarea id="dislikes" rows="3" placeholder="예: 큰 박수 소리, 갑작스러운 신체 접촉, 어두운 공간"></textarea>
+    </div>
+
+    <!-- 기타 지원 요청 -->
+    <div class="field">
+      <label for="supportRequest">기타 지원 요청 사항</label>
+      <textarea id="supportRequest" rows="3" placeholder="예: 점심시간 약 복용 알림 필요, 조용한 휴식공간 안내 등"></textarea>
+    </div>
+
+    <div class="nav">
+      <button type="button" class="btn btn-prev" onclick="goPrev()">← 이전</button>
+      <button type="button" class="btn btn-next" onclick="goNext()">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ============ Step 4: 자원봉사자 ============ -->
+  <div class="step" data-step="4">
+    <div class="step-title">Step 4. 자원봉사자 동반 신청</div>
+    <div class="step-desc">자원봉사자는 필수가 아닙니다. 동반 가능한 분이 있을 경우에만 작성해주세요.</div>
+
+    <div class="emphasis-box">
+      💡 캠프 운영에 지원인력이 많이 필요합니다. 가족 중 비장애 형제자매, 활동지원사 등이 자원봉사자로 함께 참여 가능한 경우 알려주세요. <strong>자원봉사 시간이 인정되며, 숙식이 제공됩니다.</strong> (자원봉사자 본인의 동의를 받은 후 작성해주세요.)
+    </div>
+
+    <div id="volunteerList"></div>
+
+    <button type="button" class="btn-add" onclick="addVolunteer()">+ 자원봉사자 추가</button>
+
+    <div class="hint" style="margin-top: 12px;">📌 자원봉사자의 주민등록번호 등 상세 정보는 선정 후 별도로 요청드립니다.</div>
+
+    <div class="nav">
+      <button type="button" class="btn btn-prev" onclick="goPrev()">← 이전</button>
+      <button type="button" class="btn btn-next" onclick="goNext()">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ============ Step 5: 확인 및 출력 ============ -->
+  <div class="step" data-step="5">
+    <div class="step-title">Step 5. 확인 및 출력</div>
+    <div class="step-desc">입력하신 내용을 확인하고, 각 동의 항목에 체크한 후 PDF로 저장해주세요.</div>
+
+    <div class="error-msg" id="error-5"></div>
+
+    <!-- 5-1. 참가비 안내 -->
+    <div class="field">
+      <label class="required">참가비 안내</label>
+      <div class="info-box">참가비는 가족당 1만원이며, 참가자 선정 이후 입금 방법이 안내됩니다.</div>
+      <label class="check-item">
+        <input type="checkbox" id="agreeFee"> 위 내용을 확인하였습니다.
+      </label>
+    </div>
+
+    <!-- 5-2. 개인정보 수집·이용 동의 -->
+    <div class="field">
+      <label class="required">개인정보 수집·이용 동의</label>
+      <div class="info-box">
+        개인정보보호법 제22조 및 시행령 제17조, 시행규칙 제4조 개정에 의거 귀하의 개인정보에 대해 이용 목적과 보유 기간을 알리고, 정보주체가 명확하게 인지할 수 있도록 각각의 동의사항을 구분하여 동의를 받도록 하고 있습니다. 정보의 수집·이용·제공에 동의하시는 경우 서명이 필요합니다. 개인정보처리에 대한 정보주체인 14세 미만의 학생은 법정대리인을 포함한 학부모님의 자필 서명이 필요합니다.<br><br>
+        수집 항목들에 대한 정보 이용 동의를 거부할 권리가 있음을 알려드리며 아울러 거부 시 해당 항목의 서비스가 제공되지 않는 불이익이 있음을 인지하시고, 빠짐없이 확인하신 후 서명, 제출해 주시기 바랍니다.<br><br>
+        <strong>· 수집·이용·제공 목적:</strong> 2026 장애학생 스포츠체험 가족캠프 참가자(장애학생 및 가족) 보험가입 및 자료 제출(광주시장애인체육회 및 경기도장애인체육회), 학생 안전 관련 연락 수단으로 활용<br>
+        <strong>· 수집·이용·제공 항목:</strong> 필수항목(고유식별정보) — 성명, 주민등록번호, 장애유형 및 정도, 연락처 등<br>
+        <strong>· 개인정보 보유 및 이용 기간:</strong> 수집된 항목은 이용 목적 이외의 용도로 활용되지 않으며, 보유기간(가족캠프 사업 종료 시) 이후 자동 삭제 및 파기됨을 알려드립니다.<br><br>
+        <strong>위와 같이 개인정보를 수집·이용하는 데 동의하십니까? (미동의 시 참여에 제한이 있습니다.)</strong>
+      </div>
+      <label class="check-item" style="margin-bottom: 8px;">
+        <input type="checkbox" id="agreePrivacy"> 위 내용에 동의합니다.
+      </label>
+      <div class="agree-name-list" id="privacyNameList">
+        <div style="font-size: 12px; color: #6b7280; padding: 4px 0;">아래 명단의 각 인원이 개인정보 수집·이용에 동의함을 확인합니다.</div>
+      </div>
+    </div>
+
+    <!-- 5-3. 사진·영상 동의 -->
+    <div class="field">
+      <label>사진·영상 촬영 및 활용 동의 <span style="color:#6b7280; font-weight: 400; font-size: 12px;">(선택)</span></label>
+      <div class="info-box">
+        2026 장애학생 스포츠체험 가족캠프 진행 중 촬영된 사진·영상이 다음 용도로 활용되는 데 동의합니다.<br><br>
+        <strong>· 활용 목적:</strong> 캠프 결과보고서 작성, 사업 홍보 자료(SNS·홈페이지·인쇄물 등)<br>
+        <strong>· 활용 기간:</strong> 동의 철회 시까지<br>
+        <strong>· 미동의 시:</strong> 사진·영상에서 해당 참가자가 식별되지 않도록 처리됩니다.
+      </div>
+      <label class="check-item">
+        <input type="checkbox" id="agreePhoto"> 위 내용에 동의합니다.
+      </label>
+    </div>
+
+    <!-- 5-4. 응급의료 동의 -->
+    <div class="field">
+      <label class="required">응급상황 발생 시 의료처치에 대한 보호자 사전 동의</label>
+      <div class="info-box">
+        본인은 2026 장애학생 스포츠체험 가족캠프 기간(2026.8.10.~8.11.) 중 참가자에게 응급상황이 발생할 경우, 아래 내용에 동의합니다.<br><br>
+        1. 캠프 운영진은 참가자에게 응급상황 발생 시 즉시 보호자에게 연락을 시도하며, 보호자와 연락이 닿지 않거나 응급을 요하는 경우 운영진의 판단에 따라 가까운 의료기관으로 신속히 이송할 수 있습니다.<br><br>
+        2. 지정 의료기관: [○○병원] (사전답사 후 확정). 위 의료기관 또는 상황에 따라 가장 가까운 응급실로 이송될 수 있습니다.<br><br>
+        3. 이송 시 운영진은 보호자가 사전에 제공한 의료 정보(복용약, 기저질환, 알레르기 등) 및 건강보험 정보를 의료진에게 전달하여 신속한 처치가 이루어지도록 협조합니다.<br><br>
+        4. 위급한 상황(의식 불명, 호흡 곤란, 심한 외상 등)에서는 119에 신고하여 응급 이송을 요청할 수 있으며, 이 경우 발생하는 119 이송 비용 및 의료비는 보호자가 부담합니다. (캠프에서 가입한 단체 상해보험으로 보장되는 범위는 보험 약관에 따릅니다.)<br><br>
+        5. 응급처치 및 의료기관 이송 과정에서 캠프 운영진의 선의의 응급조치에 대해서는 민·형사상 책임을 묻지 않습니다.<br><br>
+        <strong>위 내용을 충분히 이해하였으며, 응급상황 발생 시 위와 같은 조치에 동의합니다.</strong>
+      </div>
+      <label class="check-item">
+        <input type="checkbox" id="agreeEmergency"> 위 내용에 동의합니다.
+      </label>
+    </div>
+
+    <!-- 5-5. 입력 내용 요약 -->
+    <div class="field">
+      <label>입력 내용 요약</label>
+      <div id="summaryContent"></div>
+    </div>
+
+    <!-- 5-6. PDF 저장 -->
+    <button type="button" class="btn-pdf" onclick="savePdf()">📄 PDF로 저장하기</button>
+    <div class="hint" style="text-align: center; margin-top: 10px;">인쇄 대화상자가 열리면 '대상'에서 'PDF로 저장'을 선택해주세요.</div>
+
+    <div class="nav">
+      <button type="button" class="btn btn-prev" onclick="goPrev()">← 이전</button>
+    </div>
+  </div>
+
+  <div class="footer-notice">
+    입력하신 내용은 본인 기기에만 임시 저장되며, 서버로 전송되지 않습니다.<br>
+    PDF로 저장하신 후 이메일(운영진 이메일 주소 추후 안내)로 첨부해 보내주세요.
+  </div>
+</div>
+
+<script>
+  /* ===== 전역 상태 ===== */
+  let currentStep = 1;
+  let participantCount = 0;
+  let volunteerCount = 0;
+
+  /* ===== 페이지 이탈 방지 ===== */
+  let formDirty = false;
+  window.addEventListener('beforeunload', (e) => {
+    if (formDirty) {
+      e.preventDefault();
+      e.returnValue = '입력 중인 내용이 있습니다. 정말 이 페이지를 떠나시겠습니까?';
+    }
+  });
+  document.addEventListener('input', () => formDirty = true);
+  document.addEventListener('change', () => formDirty = true);
+
+  /* ===== 체크/라디오 시각 표시 ===== */
+  document.addEventListener('change', (e) => {
+    if (e.target.type === 'checkbox') {
+      const item = e.target.closest('.check-item');
+      if (item) item.classList.toggle('checked', e.target.checked);
+    } else if (e.target.type === 'radio') {
+      const name = e.target.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+        const item = r.closest('.radio-item');
+        if (item) item.classList.toggle('checked', r.checked);
+      });
+    }
+  });
+
+  /* ===== 연락처 자동 하이픈 ===== */
+  function formatPhone(value) {
+    const digits = value.replace(/\D/g, '');
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 7) return digits.slice(0, 3) + '-' + digits.slice(3);
+    return digits.slice(0, 3) + '-' + digits.slice(3, 7) + '-' + digits.slice(7, 11);
+  }
+  document.getElementById('guardianPhone').addEventListener('input', (e) => {
+    e.target.value = formatPhone(e.target.value);
+  });
+
+  /* ===== 주민등록번호 포맷 ===== */
+  function formatRRN(value) {
+    const digits = value.replace(/\D/g, '');
+    if (digits.length <= 6) return digits;
+    return digits.slice(0, 6) + '-' + digits.slice(6, 13);
+  }
+
+  /* ===== 카카오 우편번호 ===== */
+  function openPostcode() {
+    new daum.Postcode({
+      oncomplete: function(data) {
+        document.getElementById('address').value = data.roadAddress || data.jibunAddress;
+        document.getElementById('addressDetail').focus();
+      }
+    }).open();
+  }
+
+  /* ===== 서브 입력 토글 ===== */
+  function toggleSub(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('show', show);
+  }
+
+  /* ===== 단계 이동 ===== */
+  function goNext() {
+    if (!validateStep(currentStep)) return;
+    if (currentStep < 5) {
+      moveTo(currentStep + 1);
+      if (currentStep === 5) renderSummary();
+    }
+  }
+  function goPrev() {
+    if (currentStep > 1) moveTo(currentStep - 1);
+  }
+  function moveTo(step) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+    document.querySelectorAll('.progress-item').forEach((p, i) => {
+      const n = i + 1;
+      p.classList.toggle('active', n === step);
+      p.classList.toggle('done', n < step);
+    });
+    currentStep = step;
+    if (step === 5) renderSummary();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ===== 진행 표시 클릭 ===== */
+  document.querySelectorAll('.progress-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const target = parseInt(item.dataset.step);
+      if (target < currentStep) moveTo(target);
+    });
+  });
+
+  /* ===== 유효성 검사 ===== */
+  function showError(stepNum, msg) {
+    const el = document.getElementById('error-' + stepNum);
+    if (el) {
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 5000);
+    }
+  }
+
+  function validateStep(step) {
+    if (step === 1) {
+      const required = [
+        ['guardianName', '보호자 성명을 입력해주세요.'],
+        ['guardianPhone', '연락처를 입력해주세요.'],
+        ['city', '거주지(시·군)를 선택해주세요.'],
+        ['address', '도로명 주소를 검색해주세요.'],
+        ['totalMembers', '참가 총 인원을 선택해주세요.'],
+        ['disabledMembers', '장애학생 수를 선택해주세요.'],
+        ['reason', '참가 희망 사유를 입력해주세요.']
+      ];
+      for (const [id, msg] of required) {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+          el.classList.add('error');
+          el.focus();
+          showError(1, msg);
+          return false;
+        } else el.classList.remove('error');
+      }
+      // 연락처 검증
+      const phone = document.getElementById('guardianPhone').value.replace(/\D/g, '');
+      if (phone.length < 10 || phone.length > 11) {
+        showError(1, '올바른 휴대전화 번호를 입력해주세요.');
+        document.getElementById('guardianPhone').classList.add('error');
+        return false;
+      }
+      return true;
+    }
+
+    if (step === 2) {
+      const cards = document.querySelectorAll('#participantList .card');
+      if (cards.length === 0) {
+        showError(2, '최소 1명 이상의 참가자를 입력해주세요.');
+        return false;
+      }
+      for (const card of cards) {
+        const name = card.querySelector('.p-name');
+        const rrn = card.querySelector('.p-rrn');
+        if (!name.value.trim()) {
+          name.classList.add('error'); name.focus();
+          showError(2, '모든 참가자의 성명을 입력해주세요.');
+          return false;
+        } else name.classList.remove('error');
+        const rrnDigits = rrn.value.replace(/\D/g, '');
+        if (!/^\d{13}$/.test(rrnDigits)) {
+          rrn.classList.add('error'); rrn.focus();
+          showError(2, '주민등록번호는 13자리 숫자여야 합니다.');
+          return false;
+        } else rrn.classList.remove('error');
+        // 주참가자 추가 필드
+        if (card.dataset.role === 'main') {
+          const fields = ['p-welfare-type', 'p-welfare-level', 'p-edu-type', 'p-class', 'p-school'];
+          for (const cls of fields) {
+            const el = card.querySelector('.' + cls);
+            if (el && !el.value.trim()) {
+              el.classList.add('error'); el.focus();
+              showError(2, '주참가자(장애학생)의 모든 항목을 입력해주세요.');
+              return false;
+            } else if (el) el.classList.remove('error');
+          }
+        }
+      }
+      return true;
+    }
+
+    if (step === 3) {
+      const mobility = document.querySelector('input[name="mobility"]:checked');
+      if (!mobility) {
+        showError(3, '이동성 항목을 선택해주세요.');
+        return false;
+      }
+      return true;
+    }
+
+    if (step === 4) {
+      // 자원봉사자는 선택사항이나, 입력한 경우 필드 확인
+      const cards = document.querySelectorAll('#volunteerList .card');
+      for (const card of cards) {
+        const name = card.querySelector('.v-name');
+        const phone = card.querySelector('.v-phone');
+        if (!name.value.trim() || !phone.value.trim()) {
+          showError(4, '자원봉사자를 추가했다면 성명과 연락처를 입력하거나, 해당 카드를 삭제해주세요.');
+          return false;
+        }
+      }
+      return true;
+    }
+
+    return true;
+  }
+
+  /* ===== 참가자 카드 ===== */
+  function buildParticipantCard(index, isMain) {
+    const id = 'p_' + Date.now() + '_' + index;
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.dataset.role = isMain ? 'main' : 'sub';
+    div.dataset.id = id;
+
+    const mainExtra = isMain ? `
+      <div class="field">
+        <label class="required">복지카드상 장애유형</label>
+        <select class="p-welfare-type">
+          <option value="">선택</option>
+          <option>지적장애</option><option>자폐성장애</option><option>뇌병변장애</option>
+          <option>시각장애</option><option>청각장애</option><option>언어장애</option>
+          <option>지체장애</option><option>안면장애</option><option>신장장애</option>
+          <option>심장장애</option><option>간장애</option><option>호흡기장애</option>
+          <option>장루·요루장애</option><option>뇌전증장애</option><option>정신장애</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="required">장애정도</label>
+        <select class="p-welfare-level">
+          <option value="">선택</option>
+          <option>심한 장애</option>
+          <option>심하지 않은 장애</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="required">특수교육법상 장애유형</label>
+        <select class="p-edu-type">
+          <option value="">선택</option>
+          <option>시각장애</option><option>청각장애</option><option>지적장애</option>
+          <option>자폐성장애</option><option>지체장애</option><option>정서·행동장애</option>
+          <option>의사소통장애</option><option>학습장애</option><option>건강장애</option>
+          <option>발달지체</option><option>시청각장애</option><option>중도중복장애</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="required">학급</label>
+        <select class="p-class">
+          <option value="">선택</option>
+          <option>유</option><option>초</option><option>중</option><option>고</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field" style="flex: 2;">
+          <label class="required">학교명</label>
+          <input type="text" class="p-school" placeholder="예: ○○특수학교">
+        </div>
+        <div class="field" style="flex: 1;">
+          <label>학년</label>
+          <input type="text" class="p-grade" placeholder="예: 3">
+        </div>
+      </div>
+    ` : '';
+
+    div.innerHTML = `
+      <div class="card-header">
+        <div class="card-title">
+          ${isMain ? '주참가자' : '참가자'} ${index}
+          ${isMain ? '<span class="card-badge">장애학생</span>' : ''}
+        </div>
+        ${isMain ? '' : '<button type="button" class="btn-remove" onclick="removeParticipant(this)">삭제</button>'}
+      </div>
+      <div class="field">
+        <label class="required">성명</label>
+        <input type="text" class="p-name" placeholder="예: 홍길동">
+      </div>
+      <div class="field">
+        <label class="required">관계</label>
+        <select class="p-relation">
+          ${isMain ? '<option value="주참가자" selected>주참가자</option>' :
+            `<option value="">선택</option>
+             <option>형제자매</option><option>부</option><option>모</option>
+             <option>조부</option><option>조모</option><option>기타</option>`}
+        </select>
+      </div>
+      <div class="field">
+        <label class="required">주민등록번호</label>
+        <input type="text" class="p-rrn" placeholder="000000-0000000" maxlength="14" inputmode="numeric">
+        <div class="hint">복지카드 사본 등 증빙자료와 함께 보험 가입에 사용됩니다.</div>
+      </div>
+      ${mainExtra}
+    `;
+
+    // 주민번호 입력 핸들러
+    setTimeout(() => {
+      const rrnInput = div.querySelector('.p-rrn');
+      rrnInput.addEventListener('input', (e) => {
+        e.target.value = formatRRN(e.target.value);
+      });
+    }, 0);
+
+    return div;
+  }
+
+  function addParticipant() {
+    const isMain = participantCount === 0;
+    participantCount++;
+    const card = buildParticipantCard(participantCount, isMain);
+    document.getElementById('participantList').appendChild(card);
+  }
+
+  function removeParticipant(btn) {
+    const card = btn.closest('.card');
+    card.remove();
+    // 번호 재정렬
+    renumberCards();
+  }
+
+  function renumberCards() {
+    const cards = document.querySelectorAll('#participantList .card');
+    let count = 1;
+    cards.forEach(card => {
+      const title = card.querySelector('.card-title');
+      const isMain = card.dataset.role === 'main';
+      title.innerHTML = `${isMain ? '주참가자' : '참가자'} ${count}${isMain ? ' <span class="card-badge">장애학생</span>' : ''}`;
+      count++;
+    });
+    participantCount = cards.length;
+  }
+
+  /* ===== 자원봉사자 카드 ===== */
+  function addVolunteer() {
+    volunteerCount++;
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.dataset.role = 'volunteer';
+    div.innerHTML = `
+      <div class="card-header">
+        <div class="card-title">자원봉사자 ${volunteerCount}</div>
+        <button type="button" class="btn-remove" onclick="removeVolunteer(this)">삭제</button>
+      </div>
+      <div class="field">
+        <label class="required">성명</label>
+        <input type="text" class="v-name" placeholder="예: 홍길동">
+      </div>
+      <div class="field">
+        <label class="required">연락처</label>
+        <input type="tel" class="v-phone" placeholder="예: 010-1234-5678" maxlength="13">
+      </div>
+      <div class="field">
+        <label>관계</label>
+        <select class="v-relation" onchange="toggleVolEtc(this)">
+          <option value="">선택</option>
+          <option>비장애 형제자매</option>
+          <option>활동지원사</option>
+          <option>가족 지인</option>
+          <option>기타</option>
+        </select>
+        <div class="sub-input v-etc">
+          <input type="text" class="v-etc-info" placeholder="관계 상세 입력">
+        </div>
+      </div>
+    `;
+    document.getElementById('volunteerList').appendChild(div);
+    // 연락처 자동 포맷
+    setTimeout(() => {
+      div.querySelector('.v-phone').addEventListener('input', (e) => {
+        e.target.value = formatPhone(e.target.value);
+      });
+    }, 0);
+  }
+
+  function toggleVolEtc(sel) {
+    const sub = sel.closest('.field').querySelector('.v-etc');
+    sub.classList.toggle('show', sel.value === '기타');
+  }
+
+  function removeVolunteer(btn) {
+    btn.closest('.card').remove();
+    renumberVolunteers();
+  }
+
+  function renumberVolunteers() {
+    const cards = document.querySelectorAll('#volunteerList .card');
+    let count = 1;
+    cards.forEach(card => {
+      card.querySelector('.card-title').textContent = `자원봉사자 ${count}`;
+      count++;
+    });
+    volunteerCount = cards.length;
+  }
+
+  /* ===== 주민번호 마스킹/표시 ===== */
+  function maskRRN(rrn) {
+    if (!rrn) return '';
+    const digits = rrn.replace(/\D/g, '');
+    if (digits.length < 7) return rrn;
+    return digits.slice(0, 6) + '-' + digits.slice(6, 7) + '●●●●●●';
+  }
+  function fullRRN(rrn) {
+    if (!rrn) return '';
+    const digits = rrn.replace(/\D/g, '');
+    if (digits.length !== 13) return rrn;
+    return digits.slice(0, 6) + '-' + digits.slice(6, 13);
+  }
+
+  /* ===== 요약 렌더링 ===== */
+  function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function makeRow(label, value, isEmpty) {
+    const v = isEmpty ? '(미입력)' : (value || '(미입력)');
+    const empty = isEmpty || !value;
+    return `<div class="summary-row"><div class="label">${label}</div><div class="value ${empty ? 'empty' : ''}">${escapeHtml(v)}</div></div>`;
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
+  }
+
+  function getCheckedValues(selector) {
+    return Array.from(document.querySelectorAll(selector + ':checked')).map(c => c.value);
+  }
+
+  function renderSummary() {
+    const isPrint = false; // 화면 표시용
+    const totalMembers = parseInt(val('totalMembers')) || 0;
+    const participantCards = document.querySelectorAll('#participantList .card');
+    const volunteerCards = document.querySelectorAll('#volunteerList .card');
+
+    let html = '';
+
+    // 인원 불일치 경고
+    if (totalMembers && participantCards.length !== totalMembers) {
+      html += `<div class="mismatch-warning">⚠ Step 1의 총 인원(${totalMembers}명)과 Step 2의 참가자 수(${participantCards.length}명)가 다릅니다. 확인해주세요.</div>`;
+    }
+
+    // Step 1
+    html += '<div class="summary-section">';
+    html += '<div class="summary-title">1. 가족 대표(보호자) 정보</div>';
+    html += makeRow('보호자 성명', val('guardianName'));
+    html += makeRow('연락처', val('guardianPhone'));
+    html += makeRow('거주지(시·군)', val('city'));
+    const fullAddr = val('address') + (val('addressDetail') ? ' ' + val('addressDetail') : '');
+    html += makeRow('주소', fullAddr);
+    html += makeRow('참가 가족 수', `총 ${val('totalMembers') || '?'}명 (장애학생 ${val('disabledMembers') || '?'}명)`);
+    html += makeRow('참가 희망 사유', val('reason'));
+    html += '</div>';
+
+    // Step 2
+    html += '<div class="summary-section">';
+    html += '<div class="summary-title">2. 참가자 정보</div>';
+    if (participantCards.length === 0) {
+      html += '<div class="summary-row"><div class="value empty">(참가자 미입력)</div></div>';
+    } else {
+      participantCards.forEach((card, idx) => {
+        const isMain = card.dataset.role === 'main';
+        html += '<div class="summary-card">';
+        html += `<div style="font-weight:600; margin-bottom:6px; font-size:13px;">${isMain ? '주참가자(장애학생)' : '참가자 ' + (idx + 1)} · ${escapeHtml(card.querySelector('.p-name').value || '(이름 없음)')}</div>`;
+        html += makeRow('성명', card.querySelector('.p-name').value);
+        html += makeRow('관계', card.querySelector('.p-relation').value);
+        const rrn = card.querySelector('.p-rrn').value;
+        html += `<div class="summary-row"><div class="label">주민등록번호</div><div class="value pdf-full-rrn" data-full="${escapeHtml(fullRRN(rrn))}" data-mask="${escapeHtml(maskRRN(rrn))}">${escapeHtml(maskRRN(rrn) || '(미입력)')}</div></div>`;
+        if (isMain) {
+          html += makeRow('복지카드상 장애유형', card.querySelector('.p-welfare-type').value);
+          html += makeRow('장애정도', card.querySelector('.p-welfare-level').value);
+          html += makeRow('특수교육법상 장애유형', card.querySelector('.p-edu-type').value);
+          html += makeRow('학급', card.querySelector('.p-class').value);
+          html += makeRow('학교명', card.querySelector('.p-school').value);
+          html += makeRow('학년', card.querySelector('.p-grade').value);
+        }
+        html += '</div>';
+      });
+    }
+    html += '</div>';
+
+    // Step 3
+    html += '<div class="summary-section">';
+    html += '<div class="summary-title">3. 장애학생 특성 및 지원요구</div>';
+    const mobility = document.querySelector('input[name="mobility"]:checked');
+    html += makeRow('이동성', mobility ? mobility.value : '');
+    const wheelchairChecked = document.getElementById('hasWheelchair').checked;
+    if (wheelchairChecked) {
+      html += makeRow('휠체어·유모차', '☑ 지참 / ' + (val('wheelchairInfo') || '(상세 미입력)'));
+    } else {
+      html += makeRow('휠체어·유모차', '☐ 미지참');
+    }
+    const sound = document.querySelector('input[name="sound"]:checked');
+    const light = document.querySelector('input[name="light"]:checked');
+    const crowd = document.querySelector('input[name="crowd"]:checked');
+    html += makeRow('감각 - 큰 소리', sound ? sound.value : '');
+    html += makeRow('감각 - 빛·시각', light ? light.value : '');
+    html += makeRow('감각 - 사람 많은 환경', crowd ? crowd.value : '');
+
+    // 식사
+    const meals = getCheckedValues('.meal-check');
+    let mealText = meals.join(', ');
+    if (meals.includes('음식 알레르기') && val('allergyInfo')) mealText += ` [알레르기: ${val('allergyInfo')}]`;
+    if (meals.includes('기타') && val('mealEtcInfo')) mealText += ` [기타: ${val('mealEtcInfo')}]`;
+    html += makeRow('식사', mealText);
+
+    // 의사소통
+    const comms = getCheckedValues('.comm-check');
+    let commText = comms.join(', ');
+    if (comms.includes('기타') && val('commEtcInfo')) commText += ` [기타: ${val('commEtcInfo')}]`;
+    html += makeRow('의사소통', commText);
+
+    // 건강·기타
+    const healths = getCheckedValues('.health-check');
+    let healthText = healths.join(', ');
+    if (healths.includes('경련 가능성') && val('seizureInfo')) healthText += ` [경련: ${val('seizureInfo')}]`;
+    if (healths.includes('기저질환') && val('chronicInfo')) healthText += ` [기저질환: ${val('chronicInfo')}]`;
+    if (healths.includes('돌발행동') && val('behaviorInfo')) healthText += ` [돌발행동: ${val('behaviorInfo')}]`;
+    if (healths.includes('기타') && val('healthEtcInfo')) healthText += ` [기타: ${val('healthEtcInfo')}]`;
+    html += makeRow('건강·기타', healthText);
+
+    html += makeRow('강점·좋아하는 것', val('strengths'));
+    html += makeRow('싫어하는 것', val('dislikes'));
+    html += makeRow('기타 지원 요청 사항', val('supportRequest'));
+    html += '</div>';
+
+    // Step 4
+    html += '<div class="summary-section">';
+    html += '<div class="summary-title">4. 자원봉사자</div>';
+    if (volunteerCards.length === 0) {
+      html += '<div class="summary-row"><div class="value">없음</div></div>';
+    } else {
+      volunteerCards.forEach((card, idx) => {
+        html += '<div class="summary-card">';
+        html += `<div style="font-weight:600; margin-bottom:6px; font-size:13px;">자원봉사자 ${idx + 1}</div>`;
+        html += makeRow('성명', card.querySelector('.v-name').value);
+        html += makeRow('연락처', card.querySelector('.v-phone').value);
+        let rel = card.querySelector('.v-relation').value;
+        if (rel === '기타' && card.querySelector('.v-etc-info').value) {
+          rel += ' (' + card.querySelector('.v-etc-info').value + ')';
+        }
+        html += makeRow('관계', rel);
+        html += '</div>';
+      });
+    }
+    html += '</div>';
+
+    // Step 5 - 동의 항목
+    html += '<div class="summary-section">';
+    html += '<div class="summary-title">5. 동의 항목</div>';
+    html += `<div class="summary-row"><div class="label">참가비 안내</div><div class="value">${document.getElementById('agreeFee').checked ? '☑ 확인함' : '☐ 미확인'}</div></div>`;
+    html += `<div class="summary-row"><div class="label">개인정보 수집·이용</div><div class="value">${document.getElementById('agreePrivacy').checked ? '☑ 동의함' : '☐ 미동의'}</div></div>`;
+    html += `<div class="summary-row"><div class="label">사진·영상 활용 (선택)</div><div class="value">${document.getElementById('agreePhoto').checked ? '☑ 동의함' : '☐ 미동의'}</div></div>`;
+    html += `<div class="summary-row"><div class="label">응급의료 처치</div><div class="value">${document.getElementById('agreeEmergency').checked ? '☑ 동의함' : '☐ 미동의'}</div></div>`;
+    html += '</div>';
+
+    document.getElementById('summaryContent').innerHTML = html;
+
+    // 개인정보 동의 명단 갱신
+    renderAgreeNameList();
+  }
+
+  /* ===== 동의 명단 렌더링 ===== */
+  function renderAgreeNameList() {
+    const list = document.getElementById('privacyNameList');
+    const participantCards = document.querySelectorAll('#participantList .card');
+    const volunteerCards = document.querySelectorAll('#volunteerList .card');
+
+    let html = '<div style="font-size: 12px; color: #6b7280; padding: 4px 0 8px;">아래 명단의 각 인원이 개인정보 수집·이용에 동의함을 확인합니다.</div>';
+    let hasAny = false;
+
+    participantCards.forEach((card, idx) => {
+      const name = card.querySelector('.p-name').value.trim();
+      if (name) {
+        hasAny = true;
+        const isMain = card.dataset.role === 'main';
+        html += `<div class="agree-name-item">
+          <label class="check-item" style="flex: 1; padding: 6px 10px;">
+            <input type="checkbox" class="agree-individual" checked>
+            <span class="name">${escapeHtml(name)}</span>
+            <span class="role">(${isMain ? '주참가자' : '참가자 ' + (idx + 1)})</span>
+          </label>
+        </div>`;
+      }
+    });
+    volunteerCards.forEach((card, idx) => {
+      const name = card.querySelector('.v-name').value.trim();
+      if (name) {
+        hasAny = true;
+        html += `<div class="agree-name-item">
+          <label class="check-item" style="flex: 1; padding: 6px 10px;">
+            <input type="checkbox" class="agree-individual" checked>
+            <span class="name">${escapeHtml(name)}</span>
+            <span class="role">(자원봉사자 ${idx + 1})</span>
+          </label>
+        </div>`;
+      }
+    });
+
+    if (!hasAny) {
+      html += '<div style="color: #b45309; font-size: 13px; padding: 8px;">아직 입력된 참가자가 없습니다.</div>';
+    }
+
+    list.innerHTML = html;
+  }
+
+  /* ===== PDF 저장 ===== */
+  function savePdf() {
+    // 필수 동의 확인
+    const required = [
+      ['agreeFee', '참가비 안내 확인'],
+      ['agreePrivacy', '개인정보 수집·이용 동의'],
+      ['agreeEmergency', '응급의료 처치 동의']
+    ];
+    for (const [id, label] of required) {
+      if (!document.getElementById(id).checked) {
+        showError(5, `필수 항목 "${label}"에 체크해주세요.`);
+        document.getElementById(id).focus();
+        return;
+      }
+    }
+
+    // PDF 출력 시 주민번호 전체 표시
+    document.querySelectorAll('.pdf-full-rrn').forEach(el => {
+      el.textContent = el.dataset.full || el.dataset.mask;
+    });
+
+    // 작성일자
+    const now = new Date();
+    const dateStr = `작성일자: ${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일`;
+    document.getElementById('pdfDate').textContent = dateStr;
+
+    formDirty = false; // 인쇄 후 이탈 방지 해제
+
+    setTimeout(() => {
+      window.print();
+      // 인쇄 후 마스킹 복구
+      setTimeout(() => {
+        document.querySelectorAll('.pdf-full-rrn').forEach(el => {
+          el.textContent = el.dataset.mask;
+        });
+        formDirty = true;
+      }, 500);
+    }, 100);
+  }
+
+  /* ===== 초기 카드 생성 ===== */
+  addParticipant(); // 첫 주참가자 자동 생성
+</script>
+</body>
+</html>
