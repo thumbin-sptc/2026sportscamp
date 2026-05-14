@@ -440,14 +440,16 @@
   @media print {
     @page {
       size: A4 portrait;
-      margin: 18mm 16mm;
+      margin: 15mm 14mm;
     }
-    body {
-      background: #fff;
-      font-size: 11pt;
+    html, body {
+      background: #fff !important;
+      font-size: 10pt;
       color: #000;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
-    .container { max-width: none; padding: 0; }
+    .container { max-width: none; padding: 0; margin: 0; }
     .progress, .nav, .btn-add, .btn-remove, .data-notice,
     .footer-notice, .info-box, .emphasis-box, .warn-hint,
     .hint, .error-msg, .mismatch-warning, .step-desc,
@@ -455,19 +457,20 @@
 
     .pdf-header {
       display: block !important;
-      margin-bottom: 16px;
-      padding-bottom: 10px;
+      margin-bottom: 10pt;
+      padding-bottom: 6pt;
       border-bottom: 2px solid #000;
       position: relative;
+      page-break-after: avoid;
     }
     .pdf-header h1 {
-      font-size: 18pt;
+      font-size: 16pt;
       font-weight: 700;
       text-align: center;
-      margin-bottom: 4px;
+      margin-bottom: 2pt;
     }
     .pdf-header .pdf-subtitle {
-      font-size: 10pt;
+      font-size: 9pt;
       text-align: center;
       color: #555;
     }
@@ -475,66 +478,105 @@
       position: absolute;
       top: 0;
       right: 0;
-      font-size: 10pt;
+      font-size: 9pt;
       color: #555;
     }
     .pdf-only { display: block !important; }
 
+    /* 단계 컨테이너 - 페이지 흐름 자연스럽게 */
     .step {
       display: block !important;
       border: none;
       padding: 0;
-      margin-bottom: 12pt;
-      page-break-inside: avoid;
+      margin: 0 0 8pt 0;
       background: #fff;
+      /* page-break-inside: avoid 제거 → 자연스럽게 분할 */
     }
     .step-title {
-      font-size: 13pt;
+      font-size: 12pt;
       font-weight: 700;
-      padding: 6pt 8pt;
-      background: #f0f0f0;
-      border-left: 4px solid #000;
-      margin-bottom: 8pt;
+      padding: 4pt 6pt;
+      background: #e8e8e8;
+      border-left: 3px solid #000;
+      margin: 6pt 0 4pt 0;
       page-break-after: avoid;
-    }
-    .summary-section {
       page-break-inside: avoid;
+    }
+    /* 요약 섹션 - 짧은 것만 한 페이지에 유지 */
+    .summary-section {
+      margin-bottom: 6pt;
+      padding-bottom: 4pt;
       border-bottom: 1px solid #999;
-      margin-bottom: 10pt;
-      padding-bottom: 8pt;
+      /* page-break-inside: avoid 제거 → 큰 섹션은 자연 분할 */
     }
     .summary-title {
-      background: #e8e8e8;
-      font-size: 11pt;
-      padding: 4pt 8pt;
+      background: #e8e8e8 !important;
+      font-size: 10.5pt;
+      padding: 3pt 6pt;
+      margin-bottom: 2pt;
       page-break-after: avoid;
+      page-break-inside: avoid;
     }
     .summary-row {
-      padding: 3pt 8pt;
-      font-size: 10pt;
+      padding: 2pt 6pt;
+      font-size: 9.5pt;
       border-bottom: 1px dotted #ccc;
+      page-break-inside: avoid;
     }
     .summary-row .label {
-      flex: 0 0 120pt;
+      flex: 0 0 110pt;
       font-weight: 700;
     }
     .summary-row .value.empty {
       color: #999;
       font-style: italic;
     }
+    /* 개별 참가자/봉사자 카드만 잘리지 않게 */
     .summary-card {
-      background: #fafafa;
+      background: #fafafa !important;
       border: 1px solid #ccc;
-      padding: 6pt 8pt;
-      margin-bottom: 6pt;
+      padding: 4pt 6pt;
+      margin-bottom: 4pt;
       page-break-inside: avoid;
     }
     .agree-name-list {
-      background: #fafafa;
+      background: #fafafa !important;
       border: 1px solid #ccc;
-      padding: 6pt;
+      padding: 4pt;
+      page-break-inside: avoid;
+    }
+    .agree-name-item {
+      padding: 2pt 0;
+      font-size: 9.5pt;
     }
     .btn-pdf { display: none !important; }
+
+    /* Step 1~4의 입력 폼은 인쇄 시 숨김 */
+    .step[data-step="1"],
+    .step[data-step="2"],
+    .step[data-step="3"],
+    .step[data-step="4"] {
+      display: none !important;
+    }
+    /* Step 5에서는 요약만 보이게 */
+    .step[data-step="5"] {
+      padding: 0 !important;
+    }
+    .step[data-step="5"] > .step-title,
+    .step[data-step="5"] > .step-desc,
+    .step[data-step="5"] > .error-msg,
+    .step[data-step="5"] > .field:not(#summaryWrapper),
+    .step[data-step="5"] > .btn-pdf,
+    .step[data-step="5"] > .hint,
+    .step[data-step="5"] > .nav {
+      display: none !important;
+    }
+    .step[data-step="5"] #summaryWrapper {
+      display: block !important;
+    }
+    .step[data-step="5"] #summaryWrapper > label {
+      display: none !important;
+    }
   }
 
   @media (max-width: 600px) {
@@ -604,7 +646,7 @@
           <option>안산시</option><option>남양주시</option><option>안양시</option>
           <option>평택시</option><option>의정부시</option><option>시흥시</option>
           <option>파주시</option><option>김포시</option><option>광명시</option>
-          <option>광주시</option><option>군포시</option><option>하남시</option>
+          <option>광주시(우선 선정)</option><option>군포시</option><option>하남시</option>
           <option>오산시</option><option>이천시</option><option>안성시</option>
           <option>의왕시</option><option>양주시</option><option>구리시</option>
           <option>포천시</option><option>여주시</option><option>동두천시</option>
@@ -917,7 +959,7 @@
     </div>
 
     <!-- 5-5. 입력 내용 요약 -->
-    <div class="field">
+    <div class="field" id="summaryWrapper">
       <label>입력 내용 요약</label>
       <div id="summaryContent"></div>
     </div>
@@ -984,6 +1026,26 @@
     const digits = value.replace(/\D/g, '');
     if (digits.length <= 6) return digits;
     return digits.slice(0, 6) + '-' + digits.slice(6, 13);
+  }
+
+  /* ===== 복지카드 장애유형 변경 핸들러 ===== */
+  function handleWelfareTypeChange(sel) {
+    const card = sel.closest('.card');
+    const levelSel = card.querySelector('.p-welfare-level');
+    const levelHint = card.querySelector('.p-welfare-level-hint');
+    if (sel.value === '해당 없음') {
+      levelSel.value = '';
+      levelSel.disabled = true;
+      levelSel.style.background = '#f3f4f6';
+      levelSel.style.color = '#9ca3af';
+      levelSel.classList.remove('error');
+      if (levelHint) levelHint.style.display = 'block';
+    } else {
+      levelSel.disabled = false;
+      levelSel.style.background = '';
+      levelSel.style.color = '';
+      if (levelHint) levelHint.style.display = 'none';
+    }
   }
 
   /* ===== 카카오 우편번호 ===== */
@@ -1096,7 +1158,11 @@
         } else rrn.classList.remove('error');
         // 주참가자 추가 필드
         if (card.dataset.role === 'main') {
-          const fields = ['p-welfare-type', 'p-welfare-level', 'p-edu-type', 'p-class', 'p-school'];
+          const welfareType = card.querySelector('.p-welfare-type');
+          const isNoWelfare = welfareType && welfareType.value === '해당 없음';
+          const fields = isNoWelfare
+            ? ['p-welfare-type', 'p-edu-type', 'p-class', 'p-school']
+            : ['p-welfare-type', 'p-welfare-level', 'p-edu-type', 'p-class', 'p-school'];
           for (const cls of fields) {
             const el = card.querySelector('.' + cls);
             if (el && !el.value.trim()) {
@@ -1147,8 +1213,9 @@
     const mainExtra = isMain ? `
       <div class="field">
         <label class="required">복지카드상 장애유형</label>
-        <select class="p-welfare-type">
+        <select class="p-welfare-type" onchange="handleWelfareTypeChange(this)">
           <option value="">선택</option>
+          <option>해당 없음</option>
           <option>지적장애</option><option>자폐성장애</option><option>뇌병변장애</option>
           <option>시각장애</option><option>청각장애</option><option>언어장애</option>
           <option>지체장애</option><option>안면장애</option><option>신장장애</option>
@@ -1163,11 +1230,13 @@
           <option>심한 장애</option>
           <option>심하지 않은 장애</option>
         </select>
+        <div class="hint p-welfare-level-hint" style="display:none;">복지카드상 장애유형이 '해당 없음'이므로 선택할 수 없습니다.</div>
       </div>
       <div class="field">
         <label class="required">특수교육법상 장애유형</label>
         <select class="p-edu-type">
           <option value="">선택</option>
+          <option>해당 없음</option>
           <option>시각장애</option><option>청각장애</option><option>지적장애</option>
           <option>자폐성장애</option><option>지체장애</option><option>정서·행동장애</option>
           <option>의사소통장애</option><option>학습장애</option><option>건강장애</option>
@@ -1175,7 +1244,7 @@
         </select>
       </div>
       <div class="field">
-        <label class="required">학급</label>
+        <label class="required">학교급</label>
         <select class="p-class">
           <option value="">선택</option>
           <option>유</option><option>초</option><option>중</option><option>고</option>
@@ -1397,10 +1466,15 @@
         const rrn = card.querySelector('.p-rrn').value;
         html += `<div class="summary-row"><div class="label">주민등록번호</div><div class="value pdf-full-rrn" data-full="${escapeHtml(fullRRN(rrn))}" data-mask="${escapeHtml(maskRRN(rrn))}">${escapeHtml(maskRRN(rrn) || '(미입력)')}</div></div>`;
         if (isMain) {
-          html += makeRow('복지카드상 장애유형', card.querySelector('.p-welfare-type').value);
-          html += makeRow('장애정도', card.querySelector('.p-welfare-level').value);
+          const welfareType = card.querySelector('.p-welfare-type').value;
+          html += makeRow('복지카드상 장애유형', welfareType);
+          if (welfareType === '해당 없음') {
+            html += `<div class="summary-row"><div class="label">장애정도</div><div class="value" style="color:#6b7280;">— (해당 없음)</div></div>`;
+          } else {
+            html += makeRow('장애정도', card.querySelector('.p-welfare-level').value);
+          }
           html += makeRow('특수교육법상 장애유형', card.querySelector('.p-edu-type').value);
-          html += makeRow('학급', card.querySelector('.p-class').value);
+          html += makeRow('학교급', card.querySelector('.p-class').value);
           html += makeRow('학교명', card.querySelector('.p-school').value);
           html += makeRow('학년', card.querySelector('.p-grade').value);
         }
