@@ -1650,6 +1650,16 @@
 
   /* ===== 초기 카드 생성 ===== */
   addParticipant(); // 첫 주참가자 자동 생성
+
+  /* ===== Step 5 동의 체크박스 변경 시 요약 자동 갱신 ===== */
+  ['agreeFee', 'agreePrivacy', 'agreePhoto', 'agreeEmergency'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('change', () => {
+        if (currentStep === 5) renderSummary();
+      });
+    }
+  });
 </script>
 </body>
 </html>
