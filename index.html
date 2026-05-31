@@ -277,6 +277,15 @@
     color: #2563eb;
     background: #eff6ff;
   }
+  .btn-add.main {
+    border-color: #93c5fd;
+    color: #1d4ed8;
+    background: #eff6ff;
+  }
+  .btn-add.main:hover {
+    border-color: #2563eb;
+    background: #dbeafe;
+  }
   .nav {
     display: flex;
     justify-content: space-between;
@@ -330,19 +339,6 @@
     display: none;
   }
   .error-msg.show { display: block; }
-  .sensory-axis {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 10px;
-  }
-  .sensory-axis .axis-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 8px;
-  }
   .summary-section {
     margin-bottom: 20px;
     padding-bottom: 16px;
@@ -483,14 +479,12 @@
     }
     .pdf-only { display: block !important; }
 
-    /* 단계 컨테이너 - 페이지 흐름 자연스럽게 */
     .step {
       display: block !important;
       border: none;
       padding: 0;
       margin: 0 0 8pt 0;
       background: #fff;
-      /* page-break-inside: avoid 제거 → 자연스럽게 분할 */
     }
     .step-title {
       font-size: 12pt;
@@ -502,12 +496,10 @@
       page-break-after: avoid;
       page-break-inside: avoid;
     }
-    /* 요약 섹션 - 짧은 것만 한 페이지에 유지 */
     .summary-section {
       margin-bottom: 6pt;
       padding-bottom: 4pt;
       border-bottom: 1px solid #999;
-      /* page-break-inside: avoid 제거 → 큰 섹션은 자연 분할 */
     }
     .summary-title {
       background: #e8e8e8 !important;
@@ -531,7 +523,6 @@
       color: #999;
       font-style: italic;
     }
-    /* 개별 참가자/봉사자 카드만 잘리지 않게 */
     .summary-card {
       background: #fafafa !important;
       border: 1px solid #ccc;
@@ -551,14 +542,12 @@
     }
     .btn-pdf { display: none !important; }
 
-    /* Step 1~4의 입력 폼은 인쇄 시 숨김 */
     .step[data-step="1"],
     .step[data-step="2"],
     .step[data-step="3"],
     .step[data-step="4"] {
       display: none !important;
     }
-    /* Step 5에서는 요약만 보이게 */
     .step[data-step="5"] {
       padding: 0 !important;
     }
@@ -701,13 +690,16 @@
   <!-- ============ Step 2: 참가자 정보 ============ -->
   <div class="step" data-step="2">
     <div class="step-title">Step 2. 참가자 정보</div>
-    <div class="step-desc">캠프에 함께 참가할 가족 구성원을 입력해주세요. 첫 번째는 주참가자(장애학생)입니다.</div>
+    <div class="step-desc">캠프에 함께 참가할 가족 구성원을 입력해주세요. 장애학생은 여러 명 추가할 수 있습니다. (장애 형제자매가 함께 참가하는 경우 우선 선정에 참고됩니다.)</div>
 
     <div class="error-msg" id="error-2"></div>
 
     <div id="participantList"></div>
 
-    <button type="button" class="btn-add" onclick="addParticipant()">+ 가족 구성원 추가</button>
+    <div class="field-row">
+      <button type="button" class="btn-add main" onclick="addMainParticipant()">+ 장애학생 추가</button>
+      <button type="button" class="btn-add" onclick="addSubParticipant()">+ 동반 가족 추가</button>
+    </div>
 
     <div class="nav">
       <button type="button" class="btn btn-prev" onclick="goPrev()">← 이전</button>
@@ -718,152 +710,28 @@
   <!-- ============ Step 3: 장애학생 특성 및 지원요구 ============ -->
   <div class="step" data-step="3">
     <div class="step-title">Step 3. 장애학생 특성 및 지원요구</div>
-    <div class="step-desc">주참가자(장애학생)의 특성과 캠프에서 필요한 지원을 알려주세요. 정확한 정보가 안전하고 즐거운 캠프 운영에 큰 도움이 됩니다.</div>
+    <div class="step-desc">각 장애학생의 특성과 캠프에서 필요한 지원을 알려주세요. <strong>모든 항목은 필수</strong>이며, 해당사항이 없으면 '특이사항 없음'이라고 적어주세요.</div>
 
     <div class="error-msg" id="error-3"></div>
 
-    <!-- 이동성 -->
-    <div class="field">
-      <label class="required">이동성</label>
-      <div class="radio-group vertical" id="mobilityGroup">
-        <label class="radio-item"><input type="radio" name="mobility" value="제한 없이 걷는다"> 제한 없이 걷는다</label>
-        <label class="radio-item"><input type="radio" name="mobility" value="걷지만 제한적이다"> 걷지만 제한적이다 (오래 걷기 어려움, 계단 시 난간 필요, 신체적 보조 필요 등)</label>
-        <label class="radio-item"><input type="radio" name="mobility" value="손으로 잡는 보조보행기구 사용"> 손으로 잡는 보조보행기구(목발 등)를 사용하여 걷는다</label>
-        <label class="radio-item"><input type="radio" name="mobility" value="제한적 보행 또는 전동휠체어 이용"> 스스로 이동 가능하나 제한적이거나(워커 사용 등) 전동휠체어를 이용한다</label>
-        <label class="radio-item"><input type="radio" name="mobility" value="수동 휠체어, 타인 도움 필요"> 수동 휠체어를 이용하며, 다른 사람의 도움이 필요하다</label>
-      </div>
-      <div style="margin-top: 10px;">
-        <label class="check-item">
-          <input type="checkbox" id="hasWheelchair" onchange="toggleSub('wheelchairDetail', this.checked)"> 휠체어·유모차 지참
-        </label>
-      </div>
-      <div class="sub-input" id="wheelchairDetail">
-        <input type="text" id="wheelchairInfo" placeholder="예: 수동 휠체어, 가로 60cm × 세로 110cm">
-      </div>
-      <div class="warn-hint">⚠ 휠체어 정보가 실제와 다를 시 동선 계획 및 지원에 어려움이 있습니다. 정확하게 적어주세요.</div>
+    <div class="emphasis-box">
+      💡 운영진이 제공할 수 있는 지원에는 한계가 있습니다. 아래 정보를 최대한 자세히 적어주시되, 캠프에서 지원이 어려운 부분은 보호자께서 직접 준비·지원해 주셔야 할 수 있는 점 양해 부탁드립니다.
     </div>
 
-    <!-- 감각 -->
-    <div class="field">
-      <label>감각</label>
-      <div class="sensory-axis">
-        <div class="axis-label">큰 소리 (마이크·음악·박수)</div>
-        <div class="radio-group">
-          <label class="radio-item"><input type="radio" name="sound" value="특이사항 없음"> 특이사항 없음</label>
-          <label class="radio-item"><input type="radio" name="sound" value="약간 예민"> 약간 예민</label>
-          <label class="radio-item"><input type="radio" name="sound" value="중간(조절 필요)"> 중간(조절 필요)</label>
-          <label class="radio-item"><input type="radio" name="sound" value="매우 예민(헤드셋 필요)"> 매우 예민(헤드셋 필요)</label>
-        </div>
-      </div>
-      <div class="sensory-axis">
-        <div class="axis-label">빛·시각 자극</div>
-        <div class="radio-group">
-          <label class="radio-item"><input type="radio" name="light" value="특이사항 없음"> 특이사항 없음</label>
-          <label class="radio-item"><input type="radio" name="light" value="약간 예민"> 약간 예민</label>
-          <label class="radio-item"><input type="radio" name="light" value="중간"> 중간</label>
-          <label class="radio-item"><input type="radio" name="light" value="매우 예민"> 매우 예민</label>
-        </div>
-      </div>
-      <div class="sensory-axis">
-        <div class="axis-label">사람 많은 환경·낯선 공간</div>
-        <div class="radio-group">
-          <label class="radio-item"><input type="radio" name="crowd" value="특이사항 없음"> 특이사항 없음</label>
-          <label class="radio-item"><input type="radio" name="crowd" value="약간 불편"> 약간 불편</label>
-          <label class="radio-item"><input type="radio" name="crowd" value="중간(휴식공간 필요)"> 중간(휴식공간 필요)</label>
-          <label class="radio-item"><input type="radio" name="crowd" value="매우 불편"> 매우 불편</label>
-        </div>
-      </div>
+    <div class="info-box">
+      <strong>🍚 식사 안내</strong><br>
+      최대한 아이들이 선호하는 메뉴로 준비하겠습니다. 다만 1박 2일 일정 특성상 모든 식이 요구를 맞추기는 어려운 점 양해 부탁드립니다.<br>
+      · 편식이 심하거나 꼭 먹어야 하는 음식이 있는 경우, 조미김·가루·건강기능식품·이유식 형태 등 <strong>멸균 처리되어 실온 보관이 가능한 음식</strong>은 가져오셔도 됩니다.<br>
+      · 상하기 쉬운 반찬이나 가정에서 조리한 음식은 식중독 위험으로 반입이 어렵습니다.<br>
+      · 가져오신 음식 섭취로 인해 발생하는 문제에 대해서는 운영진이 책임지기 어려운 점 참고 부탁드립니다.
     </div>
 
-    <!-- 식사 -->
-    <div class="field">
-      <label>식사</label>
-      <div class="checkbox-group vertical">
-        <label class="check-item">
-          <input type="checkbox" class="meal-check" value="음식 알레르기" onchange="toggleSub('allergyDetail', this.checked)"> 음식 알레르기
-        </label>
-        <div class="sub-input" id="allergyDetail">
-          <input type="text" id="allergyInfo" placeholder="예: 견과류, 갑각류">
-        </div>
-        <label class="check-item"><input type="checkbox" class="meal-check" value="매운 음식 불가"> 매운 음식 불가</label>
-        <label class="check-item"><input type="checkbox" class="meal-check" value="식사 보조 필요"> 식사 보조 필요</label>
-        <label class="check-item"><input type="checkbox" class="meal-check" value="다진 음식 필요"> 다진 음식 필요</label>
-        <label class="check-item">
-          <input type="checkbox" class="meal-check" value="기타" onchange="toggleSub('mealEtcDetail', this.checked)"> 기타
-        </label>
-        <div class="sub-input" id="mealEtcDetail">
-          <input type="text" id="mealEtcInfo" placeholder="기타 식사 관련 사항">
-        </div>
-      </div>
+    <div class="info-box">
+      <strong>💊 약 복용 안내</strong><br>
+      복용 중인 약이 있다면 보호자께서 미리 챙겨 오시고, 복용 시간·방법을 직접 잘 챙겨주시기 바랍니다.
     </div>
 
-    <!-- 의사소통 -->
-    <div class="field">
-      <label>의사소통</label>
-      <div class="checkbox-group vertical">
-        <label class="check-item"><input type="checkbox" class="comm-check" value="구어 가능"> 구어 가능</label>
-        <label class="check-item"><input type="checkbox" class="comm-check" value="짧은 문장"> 짧은 문장</label>
-        <label class="check-item"><input type="checkbox" class="comm-check" value="단어 수준"> 단어 수준</label>
-        <label class="check-item"><input type="checkbox" class="comm-check" value="몸짓·표정·발성"> 몸짓·표정·발성</label>
-        <label class="check-item"><input type="checkbox" class="comm-check" value="AAC 사용"> AAC 사용</label>
-        <label class="check-item">
-          <input type="checkbox" class="comm-check" value="기타" onchange="toggleSub('commEtcDetail', this.checked)"> 기타
-        </label>
-        <div class="sub-input" id="commEtcDetail">
-          <input type="text" id="commEtcInfo" placeholder="기타 의사소통 방식">
-        </div>
-      </div>
-    </div>
-
-    <!-- 건강·기타 -->
-    <div class="field">
-      <label>건강·기타</label>
-      <div class="checkbox-group vertical">
-        <label class="check-item">
-          <input type="checkbox" class="health-check" value="경련 가능성" onchange="toggleSub('seizureDetail', this.checked)"> 경련 가능성
-        </label>
-        <div class="sub-input" id="seizureDetail">
-          <input type="text" id="seizureInfo" placeholder="예: 월 1~2회, 약 1분 지속">
-        </div>
-        <label class="check-item">
-          <input type="checkbox" class="health-check" value="기저질환" onchange="toggleSub('chronicDetail', this.checked)"> 기저질환
-        </label>
-        <div class="sub-input" id="chronicDetail">
-          <input type="text" id="chronicInfo" placeholder="예: 천식, 심장질환 등">
-        </div>
-        <label class="check-item">
-          <input type="checkbox" class="health-check" value="돌발행동" onchange="toggleSub('behaviorDetail', this.checked)"> 돌발행동
-        </label>
-        <div class="sub-input" id="behaviorDetail">
-          <input type="text" id="behaviorInfo" placeholder="예: 흥분 시 손을 흔들거나 큰 소리를 냄">
-        </div>
-        <label class="check-item">
-          <input type="checkbox" class="health-check" value="기타" onchange="toggleSub('healthEtcDetail', this.checked)"> 기타
-        </label>
-        <div class="sub-input" id="healthEtcDetail">
-          <input type="text" id="healthEtcInfo" placeholder="기타 건강 관련 사항">
-        </div>
-      </div>
-    </div>
-
-    <!-- 강점·좋아하는 것 -->
-    <div class="field">
-      <label for="strengths">강점·좋아하는 것</label>
-      <textarea id="strengths" rows="3" placeholder="예: 트로트 음악, 자동차 장난감, 뽀로로, 공놀이"></textarea>
-      <div class="hint">활동을 즐겁게 하기 위해 알면 좋은 정보. 예: 좋아하는 동요, 놀이, 캐릭터</div>
-    </div>
-
-    <!-- 싫어하는 것 -->
-    <div class="field">
-      <label for="dislikes">싫어하는 것</label>
-      <textarea id="dislikes" rows="3" placeholder="예: 큰 박수 소리, 갑작스러운 신체 접촉, 어두운 공간"></textarea>
-    </div>
-
-    <!-- 기타 지원 요청 -->
-    <div class="field">
-      <label for="supportRequest">기타 지원 요청 사항</label>
-      <textarea id="supportRequest" rows="3" placeholder="예: 점심시간 약 복용 알림 필요, 조용한 휴식공간 안내 등"></textarea>
-    </div>
+    <div id="charBlocks"></div>
 
     <div class="nav">
       <button type="button" class="btn btn-prev" onclick="goPrev()">← 이전</button>
@@ -877,14 +745,18 @@
     <div class="step-desc">자원봉사자는 필수가 아닙니다. 동반 가능한 분이 있을 경우에만 작성해주세요.</div>
 
     <div class="emphasis-box">
-      💡 캠프 운영에 지원인력이 많이 필요합니다. 가족 중 비장애 형제자매, 활동지원사 등이 자원봉사자로 함께 참여 가능한 경우 알려주세요. <strong>자원봉사 시간이 인정되며, 숙식이 제공됩니다.</strong> (자원봉사자 본인의 동의를 받은 후 작성해주세요.)
+      💡 캠프 운영에 지원인력이 많이 필요합니다. 가족 중 비장애 형제자매, 활동지원사 등이 자원봉사자로 함께 참여 가능한 경우 알려주세요.<br><br>
+      <strong>✓ 자원봉사 시간이 인정됩니다.</strong><br>
+      <strong>✓ 캠프 기간 동안 숙식이 제공됩니다.</strong><br>
+      <strong>✓ 자원봉사자를 동반하는 가족은 선정 시 동순위일 경우 우선 선정될 수 있습니다.</strong><br><br>
+      (자원봉사자 본인의 동의를 받은 후 작성해주세요.)
     </div>
 
     <div id="volunteerList"></div>
 
     <button type="button" class="btn-add" onclick="addVolunteer()">+ 자원봉사자 추가</button>
 
-    <div class="hint" style="margin-top: 12px;">📌 자원봉사자의 주민등록번호 등 상세 정보는 선정 후 별도로 요청드립니다.</div>
+    <div class="hint" style="margin-top: 12px;">📌 자원봉사자 정보는 보험 가입 및 연락 용도로만 사용됩니다.</div>
 
     <div class="nav">
       <button type="button" class="btn btn-prev" onclick="goPrev()">← 이전</button>
@@ -908,46 +780,32 @@
       </label>
     </div>
 
-    <!-- 5-2. 개인정보 수집·이용 동의 -->
+    <!-- 5-2. 개인정보 및 사진·영상 수집·이용 동의 -->
     <div class="field">
-      <label class="required">개인정보 수집·이용 동의</label>
+      <label class="required">개인정보 수집·이용 및 사진·영상 활용 동의</label>
       <div class="info-box">
         개인정보보호법 제22조 및 시행령 제17조, 시행규칙 제4조 개정에 의거 귀하의 개인정보에 대해 이용 목적과 보유 기간을 알리고, 정보주체가 명확하게 인지할 수 있도록 각각의 동의사항을 구분하여 동의를 받도록 하고 있습니다. 정보의 수집·이용·제공에 동의하시는 경우 서명이 필요합니다. 개인정보처리에 대한 정보주체인 14세 미만의 학생은 법정대리인을 포함한 학부모님의 자필 서명이 필요합니다.<br><br>
-        수집 항목들에 대한 정보 이용 동의를 거부할 권리가 있음을 알려드리며 아울러 거부 시 해당 항목의 서비스가 제공되지 않는 불이익이 있음을 인지하시고, 빠짐없이 확인하신 후 서명, 제출해 주시기 바랍니다.<br><br>
         <strong>· 수집·이용·제공 목적:</strong> 2026 장애학생 스포츠체험 가족캠프 참가자(장애학생 및 가족) 보험가입 및 자료 제출(광주시장애인체육회 및 경기도장애인체육회), 학생 안전 관련 연락 수단으로 활용<br>
         <strong>· 수집·이용·제공 항목:</strong> 필수항목(고유식별정보) — 성명, 주민등록번호, 장애유형 및 정도, 연락처 등<br>
-        <strong>· 개인정보 보유 및 이용 기간:</strong> 수집된 항목은 이용 목적 이외의 용도로 활용되지 않으며, 보유기간(가족캠프 사업 종료 시) 이후 자동 삭제 및 파기됨을 알려드립니다.<br><br>
-        <strong>위와 같이 개인정보를 수집·이용하는 데 동의하십니까? (미동의 시 참여에 제한이 있습니다.)</strong>
+        <strong>· 사진·영상 촬영 및 활용:</strong> 캠프 진행 중 촬영된 사진·영상은 캠프 결과보고서 작성 및 사업 홍보 자료(SNS·홈페이지·인쇄물 등)에 활용될 수 있습니다.<br>
+        <strong>· 개인정보 보유 및 이용 기간:</strong> 수집된 항목은 이용 목적 이외의 용도로 활용되지 않으며, 보유기간(가족캠프 사업 종료 시) 이후 자동 삭제 및 파기됨을 알려드립니다. (단, 사진·영상은 동의 철회 시까지 활용될 수 있습니다.)<br><br>
+        <strong>위와 같이 개인정보 수집·이용 및 사진·영상 활용에 동의하십니까? (참가를 위해 필수 동의가 필요합니다.)</strong>
       </div>
       <label class="check-item" style="margin-bottom: 8px;">
-        <input type="checkbox" id="agreePrivacy"> 위 내용에 동의합니다.
+        <input type="checkbox" id="agreePrivacy"> 위 내용(개인정보 수집·이용 및 사진·영상 활용)에 동의합니다.
       </label>
       <div class="agree-name-list" id="privacyNameList">
-        <div style="font-size: 12px; color: #6b7280; padding: 4px 0;">아래 명단의 각 인원이 개인정보 수집·이용에 동의함을 확인합니다.</div>
+        <div style="font-size: 12px; color: #6b7280; padding: 4px 0;">아래 명단의 각 인원이 위 내용에 동의함을 확인합니다.</div>
       </div>
     </div>
 
-    <!-- 5-3. 사진·영상 동의 -->
-    <div class="field">
-      <label>사진·영상 촬영 및 활용 동의 <span style="color:#6b7280; font-weight: 400; font-size: 12px;">(선택)</span></label>
-      <div class="info-box">
-        2026 장애학생 스포츠체험 가족캠프 진행 중 촬영된 사진·영상이 다음 용도로 활용되는 데 동의합니다.<br><br>
-        <strong>· 활용 목적:</strong> 캠프 결과보고서 작성, 사업 홍보 자료(SNS·홈페이지·인쇄물 등)<br>
-        <strong>· 활용 기간:</strong> 동의 철회 시까지<br>
-        <strong>· 미동의 시:</strong> 사진·영상에서 해당 참가자가 식별되지 않도록 처리됩니다.
-      </div>
-      <label class="check-item">
-        <input type="checkbox" id="agreePhoto"> 위 내용에 동의합니다.
-      </label>
-    </div>
-
-    <!-- 5-4. 응급의료 동의 -->
+    <!-- 5-3. 응급의료 동의 -->
     <div class="field">
       <label class="required">응급상황 발생 시 의료처치에 대한 보호자 사전 동의</label>
       <div class="info-box">
         본인은 2026 장애학생 스포츠체험 가족캠프 기간(2026.8.10.~8.11.) 중 참가자에게 응급상황이 발생할 경우, 아래 내용에 동의합니다.<br><br>
         1. 캠프 운영진은 참가자에게 응급상황 발생 시 즉시 보호자에게 연락을 시도하며, 보호자와 연락이 닿지 않거나 응급을 요하는 경우 운영진의 판단에 따라 가까운 의료기관으로 신속히 이송할 수 있습니다.<br><br>
-        2. 지정 의료기관: [○○병원] (사전답사 후 확정). 위 의료기관 또는 상황에 따라 가장 가까운 응급실로 이송될 수 있습니다.<br><br>
+        2. 지정 의료기관: 시화병원 (경기 시흥시). 위 의료기관 또는 상황에 따라 가장 가까운 응급실로 이송될 수 있습니다.<br><br>
         3. 이송 시 운영진은 보호자가 사전에 제공한 의료 정보(복용약, 기저질환, 알레르기 등) 및 건강보험 정보를 의료진에게 전달하여 신속한 처치가 이루어지도록 협조합니다.<br><br>
         4. 위급한 상황(의식 불명, 호흡 곤란, 심한 외상 등)에서는 119에 신고하여 응급 이송을 요청할 수 있으며, 이 경우 발생하는 119 이송 비용 및 의료비는 보호자가 부담합니다. (캠프에서 가입한 단체 상해보험으로 보장되는 범위는 보험 약관에 따릅니다.)<br><br>
         5. 응급처치 및 의료기관 이송 과정에서 캠프 운영진의 선의의 응급조치에 대해서는 민·형사상 책임을 묻지 않습니다.<br><br>
@@ -958,13 +816,13 @@
       </label>
     </div>
 
-    <!-- 5-5. 입력 내용 요약 -->
+    <!-- 5-4. 입력 내용 요약 -->
     <div class="field" id="summaryWrapper">
       <label>입력 내용 요약</label>
       <div id="summaryContent"></div>
     </div>
 
-    <!-- 5-6. PDF 저장 -->
+    <!-- 5-5. PDF 저장 -->
     <button type="button" class="btn-pdf" onclick="savePdf()">📄 PDF로 저장하기</button>
     <div class="hint" style="text-align: center; margin-top: 10px;">인쇄 대화상자가 열리면 '대상'에서 'PDF로 저장'을 선택해주세요.</div>
 
@@ -984,6 +842,7 @@
   let currentStep = 1;
   let participantCount = 0;
   let volunteerCount = 0;
+  let pidSeq = 0;
 
   /* ===== 페이지 이탈 방지 ===== */
   let formDirty = false;
@@ -1058,19 +917,16 @@
     }).open();
   }
 
-  /* ===== 서브 입력 토글 ===== */
-  function toggleSub(id, show) {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle('show', show);
+  /* ===== 휠체어 서브 입력 토글 ===== */
+  function toggleWheel(cb) {
+    const sub = cb.closest('.field').querySelector('.c-wheel-sub');
+    if (sub) sub.classList.toggle('show', cb.checked);
   }
 
   /* ===== 단계 이동 ===== */
   function goNext() {
     if (!validateStep(currentStep)) return;
-    if (currentStep < 5) {
-      moveTo(currentStep + 1);
-      if (currentStep === 5) renderSummary();
-    }
+    if (currentStep < 5) moveTo(currentStep + 1);
   }
   function goPrev() {
     if (currentStep > 1) moveTo(currentStep - 1);
@@ -1084,6 +940,7 @@
       p.classList.toggle('done', n < step);
     });
     currentStep = step;
+    if (step === 3) syncStep3();
     if (step === 5) renderSummary();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1126,7 +983,6 @@
           return false;
         } else el.classList.remove('error');
       }
-      // 연락처 검증
       const phone = document.getElementById('guardianPhone').value.replace(/\D/g, '');
       if (phone.length < 10 || phone.length > 11) {
         showError(1, '올바른 휴대전화 번호를 입력해주세요.');
@@ -1142,21 +998,31 @@
         showError(2, '최소 1명 이상의 참가자를 입력해주세요.');
         return false;
       }
+      const mains = document.querySelectorAll('#participantList .card[data-role="main"]');
+      if (mains.length === 0) {
+        showError(2, '장애학생을 최소 1명 이상 추가해주세요.');
+        return false;
+      }
       for (const card of cards) {
         const name = card.querySelector('.p-name');
         const rrn = card.querySelector('.p-rrn');
+        const relation = card.querySelector('.p-relation');
         if (!name.value.trim()) {
           name.classList.add('error'); name.focus();
           showError(2, '모든 참가자의 성명을 입력해주세요.');
           return false;
         } else name.classList.remove('error');
+        if (relation && !relation.value.trim()) {
+          relation.classList.add('error'); relation.focus();
+          showError(2, '모든 참가자의 관계를 선택해주세요.');
+          return false;
+        } else if (relation) relation.classList.remove('error');
         const rrnDigits = rrn.value.replace(/\D/g, '');
         if (!/^\d{13}$/.test(rrnDigits)) {
           rrn.classList.add('error'); rrn.focus();
           showError(2, '주민등록번호는 13자리 숫자여야 합니다.');
           return false;
         } else rrn.classList.remove('error');
-        // 주참가자 추가 필드
         if (card.dataset.role === 'main') {
           const welfareType = card.querySelector('.p-welfare-type');
           const isNoWelfare = welfareType && welfareType.value === '해당 없음';
@@ -1167,7 +1033,7 @@
             const el = card.querySelector('.' + cls);
             if (el && !el.value.trim()) {
               el.classList.add('error'); el.focus();
-              showError(2, '주참가자(장애학생)의 모든 항목을 입력해주세요.');
+              showError(2, '장애학생의 모든 항목을 입력해주세요.');
               return false;
             } else if (el) el.classList.remove('error');
           }
@@ -1177,24 +1043,47 @@
     }
 
     if (step === 3) {
-      const mobility = document.querySelector('input[name="mobility"]:checked');
-      if (!mobility) {
-        showError(3, '이동성 항목을 선택해주세요.');
+      const blocks = document.querySelectorAll('#charBlocks .card');
+      if (blocks.length === 0) {
+        showError(3, '장애학생을 먼저 입력해주세요. (Step 2)');
         return false;
+      }
+      for (const b of blocks) {
+        const mob = b.querySelector('input[type="radio"]:checked');
+        if (!mob) {
+          showError(3, '모든 장애학생의 이동성을 선택해주세요.');
+          b.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return false;
+        }
+        const texts = ['c-sensory', 'c-sensorytool', 'c-comm-exp', 'c-comm-rec', 'c-food', 'c-health', 'c-strength', 'c-dislike', 'c-support'];
+        for (const cls of texts) {
+          const el = b.querySelector('.' + cls);
+          if (el && !el.value.trim()) {
+            el.classList.add('error'); el.focus();
+            showError(3, "모든 항목은 필수입니다. 해당사항이 없으면 '특이사항 없음'이라고 적어주세요.");
+            return false;
+          } else if (el) el.classList.remove('error');
+        }
       }
       return true;
     }
 
     if (step === 4) {
-      // 자원봉사자는 선택사항이나, 입력한 경우 필드 확인
       const cards = document.querySelectorAll('#volunteerList .card');
       for (const card of cards) {
         const name = card.querySelector('.v-name');
         const phone = card.querySelector('.v-phone');
+        const rrn = card.querySelector('.v-rrn');
         if (!name.value.trim() || !phone.value.trim()) {
           showError(4, '자원봉사자를 추가했다면 성명과 연락처를 입력하거나, 해당 카드를 삭제해주세요.');
           return false;
         }
+        const rrnDigits = rrn.value.replace(/\D/g, '');
+        if (!/^\d{13}$/.test(rrnDigits)) {
+          rrn.classList.add('error'); rrn.focus();
+          showError(4, '자원봉사자 주민등록번호는 13자리 숫자여야 합니다.');
+          return false;
+        } else rrn.classList.remove('error');
       }
       return true;
     }
@@ -1203,8 +1092,8 @@
   }
 
   /* ===== 참가자 카드 ===== */
-  function buildParticipantCard(index, isMain) {
-    const id = 'p_' + Date.now() + '_' + index;
+  function buildParticipantCard(_index, isMain) {
+    const id = 'p_' + (++pidSeq);
     const div = document.createElement('div');
     div.className = 'card';
     div.dataset.role = isMain ? 'main' : 'sub';
@@ -1262,13 +1151,18 @@
       </div>
     ` : '';
 
+    const relationField = isMain
+      ? `<select class="p-relation"><option value="장애학생" selected>장애학생</option></select>`
+      : `<select class="p-relation">
+           <option value="">선택</option>
+           <option>형제자매</option><option>부</option><option>모</option>
+           <option>조부</option><option>조모</option><option>기타</option>
+         </select>`;
+
     div.innerHTML = `
       <div class="card-header">
-        <div class="card-title">
-          ${isMain ? '주참가자' : '참가자'} ${index}
-          ${isMain ? '<span class="card-badge">장애학생</span>' : ''}
-        </div>
-        ${isMain ? '' : '<button type="button" class="btn-remove" onclick="removeParticipant(this)">삭제</button>'}
+        <div class="card-title">참가자</div>
+        <button type="button" class="btn-remove" onclick="removeParticipant(this)">삭제</button>
       </div>
       <div class="field">
         <label class="required">성명</label>
@@ -1276,12 +1170,7 @@
       </div>
       <div class="field">
         <label class="required">관계</label>
-        <select class="p-relation">
-          ${isMain ? '<option value="주참가자" selected>주참가자</option>' :
-            `<option value="">선택</option>
-             <option>형제자매</option><option>부</option><option>모</option>
-             <option>조부</option><option>조모</option><option>기타</option>`}
-        </select>
+        ${relationField}
       </div>
       <div class="field">
         <label class="required">주민등록번호</label>
@@ -1291,7 +1180,6 @@
       ${mainExtra}
     `;
 
-    // 주민번호 입력 핸들러
     setTimeout(() => {
       const rrnInput = div.querySelector('.p-rrn');
       rrnInput.addEventListener('input', (e) => {
@@ -1302,30 +1190,155 @@
     return div;
   }
 
-  function addParticipant() {
-    const isMain = participantCount === 0;
-    participantCount++;
-    const card = buildParticipantCard(participantCount, isMain);
+  function addMainParticipant() {
+    const card = buildParticipantCard(0, true);
     document.getElementById('participantList').appendChild(card);
+    renumberCards();
+  }
+
+  function addSubParticipant() {
+    const card = buildParticipantCard(0, false);
+    document.getElementById('participantList').appendChild(card);
+    renumberCards();
   }
 
   function removeParticipant(btn) {
     const card = btn.closest('.card');
+    if (card.dataset.role === 'main') {
+      const mains = document.querySelectorAll('#participantList .card[data-role="main"]');
+      if (mains.length <= 1) {
+        showError(2, '장애학생은 최소 1명 이상 필요합니다.');
+        return;
+      }
+    }
     card.remove();
-    // 번호 재정렬
     renumberCards();
   }
 
   function renumberCards() {
     const cards = document.querySelectorAll('#participantList .card');
-    let count = 1;
+    let mainN = 0, subN = 0;
     cards.forEach(card => {
       const title = card.querySelector('.card-title');
-      const isMain = card.dataset.role === 'main';
-      title.innerHTML = `${isMain ? '주참가자' : '참가자'} ${count}${isMain ? ' <span class="card-badge">장애학생</span>' : ''}`;
-      count++;
+      if (card.dataset.role === 'main') {
+        mainN++;
+        title.innerHTML = `장애학생 ${mainN} <span class="card-badge">주참가자</span>`;
+      } else {
+        subN++;
+        title.innerHTML = `동반 가족 ${subN}`;
+      }
     });
     participantCount = cards.length;
+  }
+
+  /* ===== 장애학생 특성 블록 (Step 3) ===== */
+  function buildCharBlock(pid, name, num) {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.dataset.pid = pid;
+    div.innerHTML = `
+      <div class="card-header">
+        <div class="card-title"><span class="char-name">${escapeHtml(name)}</span> <span class="card-badge char-num">장애학생 ${num}</span></div>
+      </div>
+
+      <div class="field">
+        <label class="required">이동성</label>
+        <div class="radio-group vertical">
+          <label class="radio-item"><input type="radio" name="mobility_${pid}" value="제한 없이 걷는다"> 제한 없이 걷는다</label>
+          <label class="radio-item"><input type="radio" name="mobility_${pid}" value="걷지만 제한적이다"> 걷지만 제한적이다 (오래 걷기 어려움, 계단 시 난간 필요, 신체적 보조 필요 등)</label>
+          <label class="radio-item"><input type="radio" name="mobility_${pid}" value="손으로 잡는 보조보행기구 사용"> 손으로 잡는 보조보행기구(목발 등)를 사용하여 걷는다</label>
+          <label class="radio-item"><input type="radio" name="mobility_${pid}" value="제한적 보행 또는 전동휠체어 이용"> 스스로 이동 가능하나 제한적이거나(워커 사용 등) 전동휠체어를 이용한다</label>
+          <label class="radio-item"><input type="radio" name="mobility_${pid}" value="수동 휠체어, 타인 도움 필요"> 수동 휠체어를 이용하며, 다른 사람의 도움이 필요하다</label>
+        </div>
+        <div style="margin-top: 10px;">
+          <label class="check-item">
+            <input type="checkbox" class="c-wheel" onchange="toggleWheel(this)"> 휠체어·유모차 지참
+          </label>
+        </div>
+        <div class="sub-input c-wheel-sub">
+          <input type="text" class="c-wheel-info" placeholder="예: 수동 휠체어, 가로 60cm × 세로 110cm">
+        </div>
+        <div class="warn-hint">⚠ 휠체어 정보가 실제와 다를 시 동선 계획 및 지원에 어려움이 있습니다. 정확하게 적어주세요.</div>
+      </div>
+
+      <div class="field">
+        <label class="required">감각 특성</label>
+        <textarea class="c-sensory" rows="3" placeholder="큰 소리(마이크·음악·박수), 빛·시각 자극, 사람 많은 환경·낯선 공간 등에 대한 반응을 자유롭게 적어주세요. 특이사항이 없으면 '특이사항 없음'."></textarea>
+        <div class="hint">큰 소리 차단용 헤드셋(소음 방지)은 저희가 준비합니다.</div>
+      </div>
+
+      <div class="field">
+        <label class="required">현재 사용 중인 감각지원도구</label>
+        <textarea class="c-sensorytool" rows="2" placeholder="예: 이어머프, 스퀴즈볼, 무게담요 등 / 없으면 '없음'."></textarea>
+        <div class="hint">평소 사용하며 적응된 도구가 있다면 가져와 주세요. 저희도 일부 마련하겠습니다.</div>
+      </div>
+
+      <div class="field">
+        <label class="required">의사소통 - 표현</label>
+        <textarea class="c-comm-exp" rows="2" placeholder="어떻게 의사를 표현하나요? (구어, 짧은 문장, 단어 수준, 몸짓·표정·발성, AAC 사용 등) 특이사항 없으면 '특이사항 없음'."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="required">의사소통 - 수용·지시따르기</label>
+        <textarea class="c-comm-rec" rows="2" placeholder="말을 어느 정도 이해하나요? 간단한 지시(앉기, 손 씻기, 따라오기 등)를 따를 수 있나요? 특이사항 없으면 '특이사항 없음'."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="required">음식 알레르기·식이 특이사항</label>
+        <textarea class="c-food" rows="2" placeholder="알레르기, 꼭 먹어야 하거나 절대 못 먹는 음식 등을 적어주세요. 없으면 '특이사항 없음'."></textarea>
+        <div class="hint">식사 관련 안내는 위쪽 '식사 안내'를 참고해주세요.</div>
+      </div>
+
+      <div class="field">
+        <label class="required">건강·기타</label>
+        <textarea class="c-health" rows="3" placeholder="경련 가능성(빈도·지속시간), 기저질환, 돌발행동, 복용 중인 약 등을 적어주세요. 없으면 '특이사항 없음'."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="required">강점·좋아하는 것</label>
+        <textarea class="c-strength" rows="2" placeholder="예: 트로트 음악, 자동차 장난감, 뽀로로, 공놀이 등. 없으면 '특이사항 없음'."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="required">싫어하는 것</label>
+        <textarea class="c-dislike" rows="2" placeholder="예: 큰 박수 소리, 갑작스러운 신체 접촉, 어두운 공간 등. 없으면 '특이사항 없음'."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="required">기타 지원 요청 사항</label>
+        <textarea class="c-support" rows="2" placeholder="예: 점심시간 약 복용 알림 필요, 조용한 휴식공간 안내 등. 없으면 '특이사항 없음'."></textarea>
+      </div>
+    `;
+    return div;
+  }
+
+  function syncStep3() {
+    const mains = [...document.querySelectorAll('#participantList .card[data-role="main"]')];
+    const container = document.getElementById('charBlocks');
+
+    // 삭제된 장애학생의 블록 제거
+    [...container.children].forEach(block => {
+      if (!mains.some(m => m.dataset.id === block.dataset.pid)) block.remove();
+    });
+
+    // 신규 블록 추가 / 이름·번호 갱신
+    mains.forEach((m, idx) => {
+      const name = (m.querySelector('.p-name').value.trim()) || ('장애학생 ' + (idx + 1));
+      let block = container.querySelector(`[data-pid="${m.dataset.id}"]`);
+      if (!block) {
+        block = buildCharBlock(m.dataset.id, name, idx + 1);
+        container.appendChild(block);
+      } else {
+        block.querySelector('.char-name').textContent = name;
+        block.querySelector('.char-num').textContent = '장애학생 ' + (idx + 1);
+      }
+    });
+
+    // Step 2 순서에 맞춰 정렬
+    mains.forEach(m => {
+      const b = container.querySelector(`[data-pid="${m.dataset.id}"]`);
+      if (b) container.appendChild(b);
+    });
   }
 
   /* ===== 자원봉사자 카드 ===== */
@@ -1348,6 +1361,11 @@
         <input type="tel" class="v-phone" placeholder="예: 010-1234-5678" maxlength="13">
       </div>
       <div class="field">
+        <label class="required">주민등록번호</label>
+        <input type="text" class="v-rrn" placeholder="000000-0000000" maxlength="14" inputmode="numeric">
+        <div class="hint">자원봉사자 보험 가입에 사용됩니다.</div>
+      </div>
+      <div class="field">
         <label>관계</label>
         <select class="v-relation" onchange="toggleVolEtc(this)">
           <option value="">선택</option>
@@ -1362,10 +1380,12 @@
       </div>
     `;
     document.getElementById('volunteerList').appendChild(div);
-    // 연락처 자동 포맷
     setTimeout(() => {
       div.querySelector('.v-phone').addEventListener('input', (e) => {
         e.target.value = formatPhone(e.target.value);
+      });
+      div.querySelector('.v-rrn').addEventListener('input', (e) => {
+        e.target.value = formatRRN(e.target.value);
       });
     }, 0);
   }
@@ -1422,21 +1442,22 @@
     return div.innerHTML;
   }
 
-  function getCheckedValues(selector) {
-    return Array.from(document.querySelectorAll(selector + ':checked')).map(c => c.value);
-  }
-
   function renderSummary() {
-    const isPrint = false; // 화면 표시용
     const totalMembers = parseInt(val('totalMembers')) || 0;
+    const disabledMembers = parseInt(val('disabledMembers')) || 0;
     const participantCards = document.querySelectorAll('#participantList .card');
+    const mainCards = document.querySelectorAll('#participantList .card[data-role="main"]');
     const volunteerCards = document.querySelectorAll('#volunteerList .card');
+    const charBlocks = document.querySelectorAll('#charBlocks .card');
 
     let html = '';
 
     // 인원 불일치 경고
     if (totalMembers && participantCards.length !== totalMembers) {
       html += `<div class="mismatch-warning">⚠ Step 1의 총 인원(${totalMembers}명)과 Step 2의 참가자 수(${participantCards.length}명)가 다릅니다. 확인해주세요.</div>`;
+    }
+    if (disabledMembers && mainCards.length !== disabledMembers) {
+      html += `<div class="mismatch-warning">⚠ Step 1의 장애학생 수(${disabledMembers}명)와 Step 2에 추가된 장애학생 수(${mainCards.length}명)가 다릅니다. 확인해주세요.</div>`;
     }
 
     // Step 1
@@ -1457,10 +1478,11 @@
     if (participantCards.length === 0) {
       html += '<div class="summary-row"><div class="value empty">(참가자 미입력)</div></div>';
     } else {
-      participantCards.forEach((card, idx) => {
+      participantCards.forEach((card) => {
         const isMain = card.dataset.role === 'main';
+        const titleText = card.querySelector('.card-title').textContent.trim();
         html += '<div class="summary-card">';
-        html += `<div style="font-weight:600; margin-bottom:6px; font-size:13px;">${isMain ? '주참가자(장애학생)' : '참가자 ' + (idx + 1)} · ${escapeHtml(card.querySelector('.p-name').value || '(이름 없음)')}</div>`;
+        html += `<div style="font-weight:600; margin-bottom:6px; font-size:13px;">${escapeHtml(titleText)} · ${escapeHtml(card.querySelector('.p-name').value || '(이름 없음)')}</div>`;
         html += makeRow('성명', card.querySelector('.p-name').value);
         html += makeRow('관계', card.querySelector('.p-relation').value);
         const rrn = card.querySelector('.p-rrn').value;
@@ -1486,46 +1508,33 @@
     // Step 3
     html += '<div class="summary-section">';
     html += '<div class="summary-title">3. 장애학생 특성 및 지원요구</div>';
-    const mobility = document.querySelector('input[name="mobility"]:checked');
-    html += makeRow('이동성', mobility ? mobility.value : '');
-    const wheelchairChecked = document.getElementById('hasWheelchair').checked;
-    if (wheelchairChecked) {
-      html += makeRow('휠체어·유모차', '☑ 지참 / ' + (val('wheelchairInfo') || '(상세 미입력)'));
+    if (charBlocks.length === 0) {
+      html += '<div class="summary-row"><div class="value empty">(미입력)</div></div>';
     } else {
-      html += makeRow('휠체어·유모차', '☐ 미지참');
+      charBlocks.forEach((b) => {
+        const titleText = b.querySelector('.card-title').textContent.trim();
+        html += '<div class="summary-card">';
+        html += `<div style="font-weight:600; margin-bottom:6px; font-size:13px;">${escapeHtml(titleText)}</div>`;
+        const mob = b.querySelector('input[type="radio"]:checked');
+        html += makeRow('이동성', mob ? mob.value : '');
+        const wheel = b.querySelector('.c-wheel');
+        if (wheel && wheel.checked) {
+          html += makeRow('휠체어·유모차', '☑ 지참 / ' + (b.querySelector('.c-wheel-info').value.trim() || '(상세 미입력)'));
+        } else {
+          html += makeRow('휠체어·유모차', '☐ 미지참');
+        }
+        html += makeRow('감각 특성', b.querySelector('.c-sensory').value);
+        html += makeRow('사용 중인 감각지원도구', b.querySelector('.c-sensorytool').value);
+        html += makeRow('의사소통-표현', b.querySelector('.c-comm-exp').value);
+        html += makeRow('의사소통-수용·지시따르기', b.querySelector('.c-comm-rec').value);
+        html += makeRow('음식 알레르기·식이', b.querySelector('.c-food').value);
+        html += makeRow('건강·기타', b.querySelector('.c-health').value);
+        html += makeRow('강점·좋아하는 것', b.querySelector('.c-strength').value);
+        html += makeRow('싫어하는 것', b.querySelector('.c-dislike').value);
+        html += makeRow('기타 지원 요청', b.querySelector('.c-support').value);
+        html += '</div>';
+      });
     }
-    const sound = document.querySelector('input[name="sound"]:checked');
-    const light = document.querySelector('input[name="light"]:checked');
-    const crowd = document.querySelector('input[name="crowd"]:checked');
-    html += makeRow('감각 - 큰 소리', sound ? sound.value : '');
-    html += makeRow('감각 - 빛·시각', light ? light.value : '');
-    html += makeRow('감각 - 사람 많은 환경', crowd ? crowd.value : '');
-
-    // 식사
-    const meals = getCheckedValues('.meal-check');
-    let mealText = meals.join(', ');
-    if (meals.includes('음식 알레르기') && val('allergyInfo')) mealText += ` [알레르기: ${val('allergyInfo')}]`;
-    if (meals.includes('기타') && val('mealEtcInfo')) mealText += ` [기타: ${val('mealEtcInfo')}]`;
-    html += makeRow('식사', mealText);
-
-    // 의사소통
-    const comms = getCheckedValues('.comm-check');
-    let commText = comms.join(', ');
-    if (comms.includes('기타') && val('commEtcInfo')) commText += ` [기타: ${val('commEtcInfo')}]`;
-    html += makeRow('의사소통', commText);
-
-    // 건강·기타
-    const healths = getCheckedValues('.health-check');
-    let healthText = healths.join(', ');
-    if (healths.includes('경련 가능성') && val('seizureInfo')) healthText += ` [경련: ${val('seizureInfo')}]`;
-    if (healths.includes('기저질환') && val('chronicInfo')) healthText += ` [기저질환: ${val('chronicInfo')}]`;
-    if (healths.includes('돌발행동') && val('behaviorInfo')) healthText += ` [돌발행동: ${val('behaviorInfo')}]`;
-    if (healths.includes('기타') && val('healthEtcInfo')) healthText += ` [기타: ${val('healthEtcInfo')}]`;
-    html += makeRow('건강·기타', healthText);
-
-    html += makeRow('강점·좋아하는 것', val('strengths'));
-    html += makeRow('싫어하는 것', val('dislikes'));
-    html += makeRow('기타 지원 요청 사항', val('supportRequest'));
     html += '</div>';
 
     // Step 4
@@ -1539,6 +1548,8 @@
         html += `<div style="font-weight:600; margin-bottom:6px; font-size:13px;">자원봉사자 ${idx + 1}</div>`;
         html += makeRow('성명', card.querySelector('.v-name').value);
         html += makeRow('연락처', card.querySelector('.v-phone').value);
+        const vrrn = card.querySelector('.v-rrn').value;
+        html += `<div class="summary-row"><div class="label">주민등록번호</div><div class="value pdf-full-rrn" data-full="${escapeHtml(fullRRN(vrrn))}" data-mask="${escapeHtml(maskRRN(vrrn))}">${escapeHtml(maskRRN(vrrn) || '(미입력)')}</div></div>`;
         let rel = card.querySelector('.v-relation').value;
         if (rel === '기타' && card.querySelector('.v-etc-info').value) {
           rel += ' (' + card.querySelector('.v-etc-info').value + ')';
@@ -1553,8 +1564,7 @@
     html += '<div class="summary-section">';
     html += '<div class="summary-title">5. 동의 항목</div>';
     html += `<div class="summary-row"><div class="label">참가비 안내</div><div class="value">${document.getElementById('agreeFee').checked ? '☑ 확인함' : '☐ 미확인'}</div></div>`;
-    html += `<div class="summary-row"><div class="label">개인정보 수집·이용</div><div class="value">${document.getElementById('agreePrivacy').checked ? '☑ 동의함' : '☐ 미동의'}</div></div>`;
-    html += `<div class="summary-row"><div class="label">사진·영상 활용 (선택)</div><div class="value">${document.getElementById('agreePhoto').checked ? '☑ 동의함' : '☐ 미동의'}</div></div>`;
+    html += `<div class="summary-row"><div class="label">개인정보·사진영상</div><div class="value">${document.getElementById('agreePrivacy').checked ? '☑ 동의함' : '☐ 미동의'}</div></div>`;
     html += `<div class="summary-row"><div class="label">응급의료 처치</div><div class="value">${document.getElementById('agreeEmergency').checked ? '☑ 동의함' : '☐ 미동의'}</div></div>`;
     html += '</div>';
 
@@ -1570,19 +1580,19 @@
     const participantCards = document.querySelectorAll('#participantList .card');
     const volunteerCards = document.querySelectorAll('#volunteerList .card');
 
-    let html = '<div style="font-size: 12px; color: #6b7280; padding: 4px 0 8px;">아래 명단의 각 인원이 개인정보 수집·이용에 동의함을 확인합니다.</div>';
+    let html = '<div style="font-size: 12px; color: #6b7280; padding: 4px 0 8px;">아래 명단의 각 인원이 개인정보 수집·이용 및 사진·영상 활용에 동의함을 확인합니다.</div>';
     let hasAny = false;
 
-    participantCards.forEach((card, idx) => {
+    participantCards.forEach((card) => {
       const name = card.querySelector('.p-name').value.trim();
       if (name) {
         hasAny = true;
-        const isMain = card.dataset.role === 'main';
+        const roleText = card.querySelector('.card-title').textContent.trim();
         html += `<div class="agree-name-item">
           <label class="check-item" style="flex: 1; padding: 6px 10px;">
             <input type="checkbox" class="agree-individual" checked>
             <span class="name">${escapeHtml(name)}</span>
-            <span class="role">(${isMain ? '주참가자' : '참가자 ' + (idx + 1)})</span>
+            <span class="role">(${escapeHtml(roleText)})</span>
           </label>
         </div>`;
       }
@@ -1610,10 +1620,9 @@
 
   /* ===== PDF 저장 ===== */
   function savePdf() {
-    // 필수 동의 확인
     const required = [
       ['agreeFee', '참가비 안내 확인'],
-      ['agreePrivacy', '개인정보 수집·이용 동의'],
+      ['agreePrivacy', '개인정보 수집·이용 및 사진·영상 활용 동의'],
       ['agreeEmergency', '응급의료 처치 동의']
     ];
     for (const [id, label] of required) {
@@ -1629,16 +1638,14 @@
       el.textContent = el.dataset.full || el.dataset.mask;
     });
 
-    // 작성일자
     const now = new Date();
     const dateStr = `작성일자: ${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일`;
     document.getElementById('pdfDate').textContent = dateStr;
 
-    formDirty = false; // 인쇄 후 이탈 방지 해제
+    formDirty = false;
 
     setTimeout(() => {
       window.print();
-      // 인쇄 후 마스킹 복구
       setTimeout(() => {
         document.querySelectorAll('.pdf-full-rrn').forEach(el => {
           el.textContent = el.dataset.mask;
@@ -1649,10 +1656,10 @@
   }
 
   /* ===== 초기 카드 생성 ===== */
-  addParticipant(); // 첫 주참가자 자동 생성
+  addMainParticipant(); // 첫 장애학생 자동 생성
 
   /* ===== Step 5 동의 체크박스 변경 시 요약 자동 갱신 ===== */
-  ['agreeFee', 'agreePrivacy', 'agreePhoto', 'agreeEmergency'].forEach(id => {
+  ['agreeFee', 'agreePrivacy', 'agreeEmergency'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('change', () => {
