@@ -429,6 +429,117 @@
     line-height: 1.7;
     text-align: center;
   }
+
+  /* === 제출 안내 강조 박스 === */
+  .submit-notice {
+    margin-top: 28px;
+    background: #fffbeb;
+    border: 3px solid #f59e0b;
+    border-radius: 14px;
+    padding: 22px 22px 18px;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+  }
+  .submit-notice-icon {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .submit-notice-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #92400e;
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #fbbf24;
+    letter-spacing: -0.3px;
+    line-height: 1.4;
+  }
+  .submit-notice-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #78350f;
+    margin-bottom: 14px;
+  }
+  .submit-notice-step {
+    padding: 5px 0;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .submit-notice-step .num {
+    flex: 0 0 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    background: #f59e0b;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .submit-notice-step .text { flex: 1; }
+  .submit-notice-email {
+    display: block;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #b91c1c;
+    background: #fff;
+    border: 2px solid #fbbf24;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 14px 0;
+    letter-spacing: 0.5px;
+    word-break: break-all;
+  }
+  .submit-notice-attach {
+    background: #fef2f2;
+    border: 2px solid #fca5a5;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    color: #991b1b;
+    line-height: 1.7;
+  }
+  .submit-notice-attach .att-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #b91c1c;
+  }
+  .submit-notice-attach .att-item {
+    font-size: 14px;
+    padding: 2px 0 2px 18px;
+    position: relative;
+    font-weight: 500;
+  }
+  .submit-notice-attach .att-item::before {
+    content: "✔";
+    position: absolute;
+    left: 2px;
+    color: #b91c1c;
+    font-weight: 700;
+  }
+  .submit-notice-attach .att-item strong { color: #7f1d1d; }
+  .submit-notice-check {
+    background: #fff !important;
+    border: 2px solid #f59e0b !important;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    font-weight: 700;
+    color: #78350f !important;
+    margin-top: 6px;
+  }
+  .submit-notice-check.checked {
+    background: #fef3c7 !important;
+    border-color: #d97706 !important;
+  }
+
   .pdf-only { display: none; }
   .pdf-header { display: none; }
 
@@ -449,7 +560,7 @@
     .progress, .nav, .btn-add, .btn-remove, .data-notice,
     .footer-notice, .info-box, .emphasis-box, .warn-hint,
     .hint, .error-msg, .mismatch-warning, .step-desc,
-    .header { display: none !important; }
+    .header, .submit-notice { display: none !important; }
 
     .pdf-header {
       display: block !important;
@@ -555,6 +666,7 @@
     .step[data-step="5"] > .step-desc,
     .step[data-step="5"] > .error-msg,
     .step[data-step="5"] > .field:not(#summaryWrapper),
+    .step[data-step="5"] > .submit-notice,
     .step[data-step="5"] > .btn-pdf,
     .step[data-step="5"] > .hint,
     .step[data-step="5"] > .nav {
@@ -575,6 +687,8 @@
     .progress-item { font-size: 10px; padding: 8px 4px; }
     .summary-row { flex-direction: column; }
     .summary-row .label { flex: none; margin-bottom: 2px; }
+    .submit-notice-title { font-size: 17px; }
+    .submit-notice-email { font-size: 17px; }
   }
 </style>
 </head>
@@ -822,7 +936,32 @@
       <div id="summaryContent"></div>
     </div>
 
-    <!-- 5-5. PDF 저장 -->
+    <!-- 5-5. 제출 안내 (강조 박스) -->
+    <div class="submit-notice">
+      <div class="submit-notice-icon">📌</div>
+      <div class="submit-notice-title">제출 방법 안내 — 꼭 확인해주세요!</div>
+      <div class="submit-notice-body">
+        <div class="submit-notice-step">
+          <span class="num">1</span>
+          <span class="text">아래 <strong>'PDF로 저장하기'</strong> 버튼을 눌러 신청서를 저장해주세요.</span>
+        </div>
+        <div class="submit-notice-step">
+          <span class="num">2</span>
+          <span class="text">저장한 <strong>PDF 파일</strong>과 아래 <strong>증빙자료</strong>를 함께 이메일로 보내주세요.</span>
+        </div>
+      </div>
+      <div class="submit-notice-email">📧 blueses27@naver.com</div>
+      <div class="submit-notice-attach">
+        <div class="att-title">📎 반드시 함께 첨부해 주세요</div>
+        <div class="att-item">장애학생 <strong>복지카드 사본</strong></div>
+        <div class="att-item">기타 증빙자료 (해당 시)</div>
+      </div>
+      <label class="check-item submit-notice-check">
+        <input type="checkbox" id="agreeSubmit"> 위 제출 방법을 확인하였습니다.
+      </label>
+    </div>
+
+    <!-- 5-6. PDF 저장 -->
     <button type="button" class="btn-pdf" onclick="savePdf()">📄 PDF로 저장하기</button>
     <div class="hint" style="text-align: center; margin-top: 10px;">인쇄 대화상자가 열리면 '대상'에서 'PDF로 저장'을 선택해주세요.</div>
 
@@ -1316,12 +1455,10 @@
     const mains = [...document.querySelectorAll('#participantList .card[data-role="main"]')];
     const container = document.getElementById('charBlocks');
 
-    // 삭제된 장애학생의 블록 제거
     [...container.children].forEach(block => {
       if (!mains.some(m => m.dataset.id === block.dataset.pid)) block.remove();
     });
 
-    // 신규 블록 추가 / 이름·번호 갱신
     mains.forEach((m, idx) => {
       const name = (m.querySelector('.p-name').value.trim()) || ('장애학생 ' + (idx + 1));
       let block = container.querySelector(`[data-pid="${m.dataset.id}"]`);
@@ -1334,7 +1471,6 @@
       }
     });
 
-    // Step 2 순서에 맞춰 정렬
     mains.forEach(m => {
       const b = container.querySelector(`[data-pid="${m.dataset.id}"]`);
       if (b) container.appendChild(b);
@@ -1452,7 +1588,6 @@
 
     let html = '';
 
-    // 인원 불일치 경고
     if (totalMembers && participantCards.length !== totalMembers) {
       html += `<div class="mismatch-warning">⚠ Step 1의 총 인원(${totalMembers}명)과 Step 2의 참가자 수(${participantCards.length}명)가 다릅니다. 확인해주세요.</div>`;
     }
@@ -1460,7 +1595,6 @@
       html += `<div class="mismatch-warning">⚠ Step 1의 장애학생 수(${disabledMembers}명)와 Step 2에 추가된 장애학생 수(${mainCards.length}명)가 다릅니다. 확인해주세요.</div>`;
     }
 
-    // Step 1
     html += '<div class="summary-section">';
     html += '<div class="summary-title">1. 가족 대표(보호자) 정보</div>';
     html += makeRow('보호자 성명', val('guardianName'));
@@ -1472,7 +1606,6 @@
     html += makeRow('참가 희망 사유', val('reason'));
     html += '</div>';
 
-    // Step 2
     html += '<div class="summary-section">';
     html += '<div class="summary-title">2. 참가자 정보</div>';
     if (participantCards.length === 0) {
@@ -1505,7 +1638,6 @@
     }
     html += '</div>';
 
-    // Step 3
     html += '<div class="summary-section">';
     html += '<div class="summary-title">3. 장애학생 특성 및 지원요구</div>';
     if (charBlocks.length === 0) {
@@ -1537,7 +1669,6 @@
     }
     html += '</div>';
 
-    // Step 4
     html += '<div class="summary-section">';
     html += '<div class="summary-title">4. 자원봉사자</div>';
     if (volunteerCards.length === 0) {
@@ -1560,7 +1691,6 @@
     }
     html += '</div>';
 
-    // Step 5 - 동의 항목
     html += '<div class="summary-section">';
     html += '<div class="summary-title">5. 동의 항목</div>';
     html += `<div class="summary-row"><div class="label">참가비 안내</div><div class="value">${document.getElementById('agreeFee').checked ? '☑ 확인함' : '☐ 미확인'}</div></div>`;
@@ -1570,11 +1700,9 @@
 
     document.getElementById('summaryContent').innerHTML = html;
 
-    // 개인정보 동의 명단 갱신
     renderAgreeNameList();
   }
 
-  /* ===== 동의 명단 렌더링 ===== */
   function renderAgreeNameList() {
     const list = document.getElementById('privacyNameList');
     const participantCards = document.querySelectorAll('#participantList .card');
@@ -1623,7 +1751,8 @@
     const required = [
       ['agreeFee', '참가비 안내 확인'],
       ['agreePrivacy', '개인정보 수집·이용 및 사진·영상 활용 동의'],
-      ['agreeEmergency', '응급의료 처치 동의']
+      ['agreeEmergency', '응급의료 처치 동의'],
+      ['agreeSubmit', '제출 방법 확인']
     ];
     for (const [id, label] of required) {
       if (!document.getElementById(id).checked) {
@@ -1633,7 +1762,6 @@
       }
     }
 
-    // PDF 출력 시 주민번호 전체 표시
     document.querySelectorAll('.pdf-full-rrn').forEach(el => {
       el.textContent = el.dataset.full || el.dataset.mask;
     });
@@ -1656,7 +1784,7 @@
   }
 
   /* ===== 초기 카드 생성 ===== */
-  addMainParticipant(); // 첫 장애학생 자동 생성
+  addMainParticipant();
 
   /* ===== Step 5 동의 체크박스 변경 시 요약 자동 갱신 ===== */
   ['agreeFee', 'agreePrivacy', 'agreeEmergency'].forEach(id => {
